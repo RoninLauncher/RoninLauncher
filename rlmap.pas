@@ -1,76 +1,72 @@
 unit rlmap;
 
 {$mode ObjFPC}{$H+}
+{$interfaces corba}
 
 interface
 
 uses
-  Classes, SysUtils, fgl;
+  Classes, SysUtils, fgl, rlplayer;
 
 type
   tdirection = (NORTH, EAST, SOUTH, WEST);
-  tdir_room_map = specialize TFPGMap<tdirection, integer>;
+  troom_list = specialize TFPGList<Troom>;
+  tfields = array[0..2] of array[0..2] of IPlaceable; // integer is a placeholder
+  troom_connections = array[NORTH..WEST] of integer;
+
+  Iplaceable = interface
+  end;
 
   Tmap = class
   private
-    _rooms: specialize TFPGList<TRoom>;
+    _rooms: troom_list;
+    _player: TPlayer;
+    // Navigation
+    _current_room: integer;
+    _current_field: integer;
   public
-    constructor Create;
-    procedure Free;
+    constructor Create(aplayer: TPlayer);
     procedure add_room(aroom: troom);
   end;
 
   Troom = class
   private
     _id: integer;
-    _move_dirs: tdir_room_map;
+    _connections: troom_connections;
+    _fields: tfields;
   class var
     _id_count: integer;
   public
-    constructor Create(adir_room_map: tdir_room_map);
-    procedure Free;
-    procedure add_dir(adir: tdirection; aroom: integer);
-
+    constructor Create(aconnections: troom_connections; afields: tfields);
+    procedure connect(adir: tdirections; aroom_id: integer);
   end;
 
 implementation
 
 { TRoom }
 
-constructor TRoom.Create(adir_room_map: tdir_room_map);
+constructor TRoom.Create(aconnections: troom_connections; afields: tfields);
   begin
     _id := _id_count;
     Inc(_id_count);
-    if _move_dirs<>nil then
-      _move_dirs := adir_room_map
-    else
-      _move_dirs := tdir_room_map.Create;
+    _connections := aconnections;
+    _fields := afields;
   end;
 
-procedure troom.Free;
-  begin
-    _move_dirs.Free;
-    self := nil;
-  end;
 
-procedure troom.add_dir(adir: tdirection; aroom: integer);
+procedure troom.connect(adir: tdirections; aroom_id: integer);
   begin
-    if aroom>=_id_count then
-      raise Exception('you want to add a non-existing room');
-    _move_dirs.AddOrSetData(adir, aroom);
+    _connections[adir] := aroom_id;
   end;
 
 { TMap }
-constructor tmap.Create;
+constructor tmap.Create(aplayer: tplayer; astart_room: integer = 0);
   begin
-    _rooms := specialize TFPGList<Troom>.Create;
+    _player := aplayer;
+    _current_room := astart_room;
+    _current_field := 4;
   end;
 
-procedure tmap.Free;
-  begin
-    _rooms.Free;
-    self := nil;
-  end;
 
 procedure tmap.add_room(aroom: troom);
   begin
