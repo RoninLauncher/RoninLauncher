@@ -1,13 +1,16 @@
 unit rlplayer;
 
 {$mode ObjFPC}{$H+}
+{$interfaces corba}
 
 interface
 
 uses
-  Classes, SysUtils, Math, rlmap;
+  Classes, SysUtils, Math;
 
 type
+  {$I rlplaceable.inc}
+
   Tentity = class //Spieler
   private
     _name: string;
@@ -20,6 +23,7 @@ type
     constructor Create(aname: string; ahealth, adamage: integer);
     property health: integer read _health write _set_health;
     property is_alive: boolean read _is_alive;
+    property Name: string read _name;
     procedure attack(aenemy: tentity);
   end;
 
@@ -47,6 +51,12 @@ procedure tentity.attack(aenemy: tentity);
 
 procedure tentity._set_health(ahealth: integer);
   begin
+    if _health = -1 then
+    begin
+      _health := max(1, ahealth);
+      _max_health := _health;
+      exit();
+    end;
     _health := max(0, min(ahealth, _max_health));
     if _health = 0 then
       _is_alive := False;

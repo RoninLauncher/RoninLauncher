@@ -1,0 +1,3 @@
+Iplaceable = interface
+end;
+

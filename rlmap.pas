@@ -10,24 +10,11 @@ uses
 
 type
   tdirection = (NORTH, EAST, SOUTH, WEST);
-  troom_list = specialize TFPGList<Troom>;
-  tfields = array[0..2] of array[0..2] of IPlaceable; // integer is a placeholder
   troom_connections = array[NORTH..WEST] of integer;
 
-  Iplaceable = interface
-  end;
+  {$I rlplaceable.inc}
+  tfields = array[0..2] of array[0..2] of IPlaceable; // integer is a placeholder
 
-  Tmap = class
-  private
-    _rooms: troom_list;
-    _player: TPlayer;
-    // Navigation
-    _current_room: integer;
-    _current_field: integer;
-  public
-    constructor Create(aplayer: TPlayer);
-    procedure add_room(aroom: troom);
-  end;
 
   Troom = class
   private
@@ -38,7 +25,22 @@ type
     _id_count: integer;
   public
     constructor Create(aconnections: troom_connections; afields: tfields);
-    procedure connect(adir: tdirections; aroom_id: integer);
+    procedure connect(adir: tdirection; aroom_id: integer);
+  end;
+
+
+  troom_list = specialize TFPGList<Troom>;
+
+  Tmap = class
+  private
+    _rooms: troom_list;
+    _player: TPlayer;
+    // Navigation
+    _current_room: integer;
+    _current_field: integer;
+  public
+    constructor Create(aplayer: TPlayer; astart_room: integer = 0);
+    procedure add_room(aroom: troom);
   end;
 
 implementation
@@ -54,7 +56,7 @@ constructor TRoom.Create(aconnections: troom_connections; afields: tfields);
   end;
 
 
-procedure troom.connect(adir: tdirections; aroom_id: integer);
+procedure troom.connect(adir: tdirection; aroom_id: integer);
   begin
     _connections[adir] := aroom_id;
   end;
