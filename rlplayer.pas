@@ -11,7 +11,7 @@ uses
 type
   {$I rlplaceable.inc}
 
-  Tentity = class //Spieler
+  TEntity = class
   private
     _name: string;
     _health: integer;
@@ -27,15 +27,15 @@ type
     procedure attack(aenemy: tentity);
   end;
 
-  tplayer = class(tentity)
+  TPlayer = class(TEntity)
   end;
 
-  Tenemy = class(tentity, iplaceable)
+  TEnemy = class(TEntity, IPlaceable)
   end;
 
 implementation
 
-constructor tentity.Create(aname: string; ahealth, adamage: integer);
+constructor TEntity.Create(aname: string; ahealth, adamage: integer);
   begin
     _name := aname;
     _health := max(1, ahealth);
@@ -44,12 +44,12 @@ constructor tentity.Create(aname: string; ahealth, adamage: integer);
     _is_alive := True;
   end;
 
-procedure tentity.attack(aenemy: tentity);
+procedure TEntity.attack(aenemy: TEntity);
   begin
     aenemy.health := aenemy.health-_damage;
   end;
 
-procedure tentity._set_health(ahealth: integer);
+procedure TEntity._set_health(ahealth: integer);
   begin
     if _health = -1 then
     begin

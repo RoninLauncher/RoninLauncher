@@ -27,7 +27,6 @@ uses
       exit(Tplayer.Create(aName, health, damage));
     end;
 
-
 var
   map: Tmap;
   player: Tplayer;
@@ -61,5 +60,4 @@ begin
     // Kommandoverarbeitung
   end;
 
-end.
 end.
