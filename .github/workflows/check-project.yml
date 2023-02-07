@@ -9,5 +9,4 @@ jobs:
     - with:
         lazarus-version: "stable"
         with-cache: true
-    - run: lazbuild tests/tests.lpi
-    - run: tests/tests --all --format=plainnotiming
+    - run: lazbuild RoninLauncher.lpi

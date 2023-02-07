@@ -9,10 +9,13 @@ uses
   Classes, SysUtils, fgl, rlplayer;
 
 type
-  TDirection = (NORTH, EAST, SOUTH, WEST);
+  TDirection = (NORTH, EAST, SOUTH, WEST)
   TRoomConnections = array[NORTH..WEST] of integer;
 
   {$I rlplaceable.inc}
+  empty_field = class(IPlaceable)
+  end;
+  
   TFields = array[0..2] of array[0..2] of IPlaceable;
 
   TRoom = class
@@ -20,11 +23,14 @@ type
     _id: integer;
     _connections: troom_connections;
     _fields: tfields;
+    _description: string;
     class var
       _id_count: integer;
   public
-    constructor Create(aconnections: troom_connections; afields: tfields);
-    procedure connect(adir: tdirection; aroom_id: integer);
+    constructor Create(aconnections: troom_connections; afields: tfields; adescription: string);
+		property description: string read _description;
+		procedure connect(adir: tdirection; aroom_id: integer);
+    function get_connection(adir: tdirection): integer;
   end;
 
   TRoomList = specialize TFPGList<Troom>;
@@ -33,29 +39,43 @@ type
   private
     _rooms: TRoomList;
     _player: TPlayer;
-    // Navigation
-    _current_room: integer;
-    _current_field: integer;
+    _current_room: integer; // index in rooms
+    _current_field: integer; // index on 2d field
+    function _get_current_room: TRoom;
   public
     constructor Create(aplayer: TPlayer; astart_room: integer = 0);
+    property current_room: TRoom read _get_current_room;
     procedure add_room(aroom: TRoom);
+    function move_player(adir: string): boolean; // returns if player walked into new room;
+    procedure print_room_description;
   end;
 
 implementation
 
 { TRoom }
-constructor TRoom.Create(aconnections: TRoomConnections; afields: TFields);
+constructor TRoom.Create(aconnections: TRoomConnections; afields: TFields; adescription: string);
   begin
     _id := _id_count;
-    Inc(_id_count);
     _connections := aconnections;
     _fields := afields;
+    _description := adescription;
+		Inc(_id_count);
   end;
 
 
 procedure TRoom.connect(adir: TDirection; aroom_id: integer);
   begin
     _connections[adir] := aroom_id;
+  end;
+
+function TRoom.get_connection(adir: tdirection): integer;
+  begin
+    exit(_connecions[adir]);
+  end;
+
+function TRoom.get_current_field(aid: integer): IPlaceable;
+  begin
+    exit(_fields[aid]);
   end;
 
 { TMap }
@@ -70,6 +90,63 @@ constructor TMap.Create(aplayer: TPlayer; astart_room: integer = 0);
 procedure tmap.add_room(aroom: TRoom);
   begin
     _rooms.Add(aroom);
+  end;
+
+function TMap.move_player(adir: string): boolean;
+	begin
+		case adir of
+		'norden', 'Norden', 'NORDEN':
+		  begin
+			  _current_field := _current_field - 3;
+			  if _current_field = -2 then
+          begin
+            _current_room := _current_room.get_connection(NORTH);
+            _current_field := 7;
+            exit(true);
+          end;
+        exit(false);
+      end;
+		'sueden', 'Sueden', 'SUEDEN':
+		  begin
+			  _current_field := _current_field + 3;
+			  if _current_field = 9 then
+			    begin
+            _current_room := _current_room.get_connection(SOUTH);
+            _current_field := 1;
+            exit(true);
+          end;
+        exit(false);
+      end;
+		'osten', 'Osten', 'OSTEN':
+		  begin		  
+			  _current_field := _current_field + 1;
+			  if _current_field = 6 then
+			    begin
+            _current_room := _current_room.get_connection(EAST);
+            _current_field := 3;
+            exit(true);
+          end;
+        exit(false);
+			end;
+		'westen', 'Westen', 'WESTEN':
+		  begin
+			  _current_field := _current_field - 1;
+			  if _current_field = 2 then
+			    begin
+            _current_room := _current_room.get_connection(WEST);
+            _current_field := 5;
+            exit(true);
+          end;
+        exit(false);
+	    end;
+		else
+			raise Exception.Create('invalid direction');
+		end;
+	end;
+
+function TMap._get_current_room: TRoom;
+  begin
+    exit(_rooms[_current_room])
   end;
 
 end.
