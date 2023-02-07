@@ -3,7 +3,7 @@ program RoninLauncher;
 uses
   crt,
   rlmap,
-  rlplayer;
+  rlplayer, unit1;
 
   function create_player(aname, aklasse: string): tplayer;
     var
@@ -57,6 +57,7 @@ begin
     // Kommandoeingabe
     write('> ');
     readln(command);
+    if command='Angreifen' then attack() //noch nicht ganz sicher was da rein kommt
     // Kommandoverarbeitung
   end;
 
