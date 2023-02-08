@@ -1,15 +1,13 @@
 name: Format and tests the code in this repo
 on:
   workflow_dispatch:
+
 jobs:
   test:
     steps:
-    - name: "checkout code"
-      uses: actions/checkout@v3
-    - name: "setup lazarus"
-      uses: gcarreno/setup-lazarus@v3.2
+    - uses: actions/checkout@v2
+    - uses: gcarreno/setup-lazarus@v3.2
       with:
         lazarus-version: "stable"
         with-cache: true
-    - name: "build RoninLauncher"
-      run: lazbuild RoninLauncher.lpi
+    - run: lazbuild RoninLauncher.lpi
