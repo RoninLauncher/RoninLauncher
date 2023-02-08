@@ -4,8 +4,9 @@ on:
 jobs:
   test:
     steps:
-    - name: "setup lazarus"
+    - name: "checkout code"
       uses: actions/checkout@v3
+    - name: "setup lazarus"
       uses: gcarreno/setup-lazarus@v3.2
       with:
         lazarus-version: "stable"
