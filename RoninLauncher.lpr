@@ -2,8 +2,9 @@ program RoninLauncher;
 
 uses
   crt,
+  fgl,
   rlmap,
-  rlplayer, unit1;
+  rlplayer, unit1, commands;
 
   function create_player(aname, aklasse: string): tplayer;
     var
@@ -31,8 +32,11 @@ var
   map: Tmap;
   player: Tplayer;
   Name, klasse, command: string;
+  global_actions: specialize TFPGMap<string, TCommand>;
 
 begin
+	global_actions := specialize TFPGMap<string, TCommand>.create;
+	global_actions.add('gehe nach', TMoveCommand(map));
   // Intro, get name
   Write('Hallo Abenteurer. Bitte sag mir deinen Namen'#10#13'> ');
   //Einleitung grob
