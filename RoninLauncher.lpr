@@ -10,6 +10,13 @@ uses
   rlplayer,
   commands;
 
+var
+  map: Tmap;
+  player: Tplayer;
+  Name, klasse, command: string;
+  global_actions: specialize TFPGMap<string, TCommand>;
+  command_cls: TCommand;
+
   function UpCaseFirstChar(const s: string): string;
     begin
       if Length(s) = 0 then
@@ -60,18 +67,30 @@ uses
           exit(actions_map.keydata[key]);
       end;
       exit(nil);
-
     end;
 
-var
-  map: Tmap;
-  player: Tplayer;
-  Name, klasse, command: string;
-  global_actions: specialize TFPGMap<string, TCommand>;
-  command_cls: TCommand;
+  procedure fill_map(map_obj: Tmap);
+    var
+      empty_fields: TFields;
+      i, j: integer;
+      con: TRoomConnections;
+    begin
+      for i := low(empty_fields) to high(empty_fields) do
+        for j := low(empty_fields) to high(empty_fields) do
+          empty_fields[i, j] := TemptyField.Create;
+
+      map_obj.add_room(TRoom.Create(con, empty_fields, 'room 0'));
+      map_obj.add_room(TRoom.Create((-1, 2, 4, -1), empty_fields, 'room 1'));
+      map_obj.add_room(TRoom.Create([-1, 3, 0, 1], empty_fields, 'room 2'));
+      map_obj.add_room(TRoom.Create([-1, -1, 5, 2], empty_fields, 'room 3'));
+      map_obj.add_room(TRoom.Create([1, 0, 6, -1], empty_fields, 'room 4'));
+      map_obj.add_room(TRoom.Create([3, -1, 8, 0], empty_fields, 'room 5'));
+      map_obj.add_room(TRoom.Create([4, 7, -1, -1], empty_fields, 'room 6'));
+      map_obj.add_room(TRoom.Create([0, 8, -1, 6], empty_fields, 'room 7'));
+      map_obj.add_room(TRoom.Create([5, -1, -1, 7], empty_fields, 'room 8'));
+    end;
 
 begin
-
   global_actions := specialize TFPGMap<string, TCommand>.Create;
   // Intro, get name
   Write('Hallo Abenteurer. Bitte sag mir deinen Namen'#10#13'> ');
@@ -116,4 +135,5 @@ begin
     // Kommandoverarbeitung
   end;
   global_actions.Free;
+  map.Free;
 end.

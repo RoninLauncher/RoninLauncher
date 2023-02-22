@@ -14,22 +14,26 @@ type
   TEntity = class
   private
     _name: string;
-    _klasse: string;
     _health: integer;
     _max_health: integer;
     _damage: integer;
     _is_alive: boolean;
     procedure _set_health(ahealth: integer);
   public
-    constructor Create(aname, aklasse: string; ahealth, adamage: integer);
+    constructor Create(aname: string; ahealth, adamage: integer);
     property health: integer read _health write _set_health;
     property is_alive: boolean read _is_alive;
     property Name: string read _name;
-    property klasse: string read _klasse;
+
     procedure attack(aenemy: tentity);
   end;
 
   TPlayer = class(TEntity)
+  private
+    _klasse: string;
+  public
+    constructor Create(aname, aklasse: string; ahealth, adamage: integer);
+    property klasse: string read _klasse;
   end;
 
   TEnemy = class(TEntity, IPlaceable)
@@ -37,10 +41,9 @@ type
 
 implementation
 
-constructor TEntity.Create(aname, aklasse: string; ahealth, adamage: integer);
+constructor TEntity.Create(aname: string; ahealth, adamage: integer);
   begin
     _name := aname;
-    _klasse := aklasse;
     _health := max(1, ahealth);
     _max_health := _health;
     _damage := max(1, adamage);
@@ -57,6 +60,12 @@ procedure TEntity._set_health(ahealth: integer);
     _health := max(0, min(ahealth, _max_health));
     if _health = 0 then
       _is_alive := False;
+  end;
+
+constructor TPlayer.Create(aname, aklasse: string; ahealth, adamage: integer);
+  begin
+    inherited Create(aname, ahealth, adamage);
+    _klasse := aklasse;
   end;
 
 end.

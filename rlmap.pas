@@ -10,20 +10,30 @@ uses
 
 type
   TDirection = (NORTH, EAST, SOUTH, WEST);
-  TRoomConnections = array[NORTH..WEST] of integer;
+  TRoomConnections = array[0..3] of integer;
 
-  {$I rlplaceable.inc}  
+  {$I rlplaceable.inc}
 
   TField = class
   private
     _description: string;
     _content: IPlaceable;
   public
-    constructor create(adescription: string; acontent: IPlaceable);
-    property description: string read _description;  
+    constructor Create(adescription: string; acontent: IPlaceable);
+    property description: string read _description;
   end;
 
-  TFields = array[0..2,0..2] of TField;
+  TFields = array[0..2, 0..2] of TField;
+
+  // disposable
+  TNothingPlaced = class(IPlaceable)
+  end;
+
+  TEmptyField = class(TField)
+    constructor Create;
+  end;
+
+  // end
 
   TRoom = class
   private
@@ -31,16 +41,17 @@ type
     _connections: TRoomConnections;
     _fields: tfields;
     _description: string;
-    class var
-      _id_count: integer;
+  class var
+    _id_count: integer;
   public
-    constructor Create(aconnections: TRoomConnections; afields: tfields; adescription: string);
-	  property description: string read _description;
-	  property fields: tfields read _fields;
-	  procedure connect(adir: tdirection; aroom_id: integer);
+    constructor Create(aconnections: TRoomConnections; afields: tfields;
+      adescription: string);
+    property description: string read _description;
+    property fields: tfields read _fields;
+    procedure connect(adir: tdirection; aroom_id: integer);
     function get_connection(adir: tdirection): integer;
   end;
-  
+
   TRoomList = specialize TFPGList<Troom>;
 
   TMap = class
@@ -56,30 +67,48 @@ type
     property current_room: TRoom read _get_current_room;
     property current_field: TField read _get_current_field;
     procedure add_room(aroom: TRoom);
-    function move_player(adir: string): boolean; // returns if player walked into new room;
+    function move_player(adir: string): boolean;
+    // returns if player walked into new room;
+    procedure Free;
+    procedure debug;
   end;
 
 implementation
 
+function dirtoint(adir: Tdirection): integer;
+  begin
+    case adir of
+      NORTH: exit(0);
+      EAST: exit(1);
+      SOUTH: exit(2);
+      WEST: exit(3);
+      else
+      begin
+        raise Exception.Create('later this will be useful message....');
+      end;
+    end;
+  end;
+
 { TRoom }
-constructor TRoom.Create(aconnections: TRoomConnections; afields: TFields; adescription: string);
+constructor TRoom.Create(aconnections: TRoomConnections; afields: TFields;
+  adescription: string);
   begin
     _id := _id_count;
     _connections := aconnections;
     _fields := afields;
     _description := adescription;
-		Inc(_id_count);
+    Inc(_id_count);
   end;
 
 
 procedure TRoom.connect(adir: TDirection; aroom_id: integer);
   begin
-    _connections[adir] := aroom_id;
+    _connections[dirtoint(adir)] := aroom_id;
   end;
 
-function TRoom.get_connection(adir: tdirection): integer;
+function TRoom.get_connection(adir: TDirection): integer;
   begin
-    exit(_connections[adir]);
+    exit(_connections[dirtoint(adir)]);
   end;
 
 { TMap }
@@ -99,58 +128,58 @@ procedure tmap.add_room(aroom: TRoom);
 function TMap.move_player(adir: string): boolean;
   begin
     case adir of
-    'norden', 'Norden', 'NORDEN':
+      'norden', 'Norden', 'NORDEN':
       begin
-        _current_field := _current_field - 3;
+        _current_field := _current_field-3;
         if _current_field = -2 then
-          begin
-            _current_room := _rooms[_current_room].get_connection(NORTH);
-            _current_field := 7;
-            exit(true);
-          end;
-        exit(false);
-      end;
-    'sueden', 'Sueden', 'SUEDEN':
-      begin
-        _current_field := _current_field + 3;
-        if _current_field = 9 then
-          begin
-            _current_room := _rooms[_current_room].get_connection(SOUTH);
-            _current_field := 1;
-          exit(true);
-          end;
-        exit(false);
-      end;
-    'osten', 'Osten', 'OSTEN':
-      begin		  
-        _current_field := _current_field + 1;
-        if _current_field = 6 then
-          begin
-            _current_room := _rooms[_current_room].get_connection(EAST);
-            _current_field := 3;
-            exit(true);
-          end;
-        exit(false);
-      end;
-    'westen', 'Westen', 'WESTEN':
-      begin
-        _current_field := _current_field - 1;
-          if _current_field = 2 then
-            begin
-              _current_room := _rooms[_current_room].get_connection(WEST);
-              _current_field := 5;
-              exit(true);
-            end;
-          exit(false);
+        begin
+          _current_room := _rooms[_current_room].get_connection(NORTH);
+          _current_field := 7;
+          exit(True);
         end;
+        exit(False);
+      end;
+      'sueden', 'Sueden', 'SUEDEN':
+      begin
+        _current_field := _current_field+3;
+        if _current_field = 9 then
+        begin
+          _current_room := _rooms[_current_room].get_connection(SOUTH);
+          _current_field := 1;
+          exit(True);
+        end;
+        exit(False);
+      end;
+      'osten', 'Osten', 'OSTEN':
+      begin
+        _current_field := _current_field+1;
+        if _current_field = 6 then
+        begin
+          _current_room := _rooms[_current_room].get_connection(EAST);
+          _current_field := 3;
+          exit(True);
+        end;
+        exit(False);
+      end;
+      'westen', 'Westen', 'WESTEN':
+      begin
+        _current_field := _current_field-1;
+        if _current_field = 2 then
+        begin
+          _current_room := _rooms[_current_room].get_connection(WEST);
+          _current_field := 5;
+          exit(True);
+        end;
+        exit(False);
+      end;
       else
         raise Exception.Create('invalid direction');
-      end;
+    end;
   end;
 
 function TMap._get_current_room: TRoom;
   begin
-    exit(_rooms[_current_room])
+    exit(_rooms[_current_room]);
   end;
 
 function TMap._get_current_field: TField;
@@ -159,15 +188,33 @@ function TMap._get_current_field: TField;
   begin
     row := _current_field div 3;
     col := _current_field mod 3;
-    exit(_rooms[_current_room].fields[row,col]);
+    exit(_rooms[_current_room].fields[row, col]);
+  end;
+
+procedure TMap.debug;
+  begin
+    writeln(format('%d', [_rooms.Count]));
+  end;
+
+procedure TMap.Free;
+  begin
+    _rooms.Free;
   end;
 
 { TField }
-constructor TField.create(adescription: string; acontent: IPlaceable);
+constructor TField.Create(adescription: string; acontent: IPlaceable);
   begin
     _description := adescription;
     _content := acontent;
   end;
+
+// disposable
+constructor TEmptyField.Create;
+  begin
+    inherited Create('some desc...', TNothingPlaced.Create);
+  end;
+
+//end
 
 
 end.
