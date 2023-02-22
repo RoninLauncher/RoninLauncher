@@ -9,7 +9,7 @@ uses
   Classes, SysUtils, fgl, rlplayer;
 
 type
-  TDirection = (NORTH, EAST, SOUTH, WEST)
+  TDirection = (NORTH, EAST, SOUTH, WEST);
   TRoomConnections = array[NORTH..WEST] of integer;
 
   {$I rlplaceable.inc}  
@@ -28,15 +28,15 @@ type
   TRoom = class
   private
     _id: integer;
-    _connections: troom_connections;
+    _connections: TRoomConnections;
     _fields: tfields;
     _description: string;
     class var
       _id_count: integer;
   public
-    constructor Create(aconnections: troom_connections; afields: tfields; adescription: string);
+    constructor Create(aconnections: TRoomConnections; afields: tfields; adescription: string);
 	  property description: string read _description;
-	  property fields: string read _fields;
+	  property fields: tfields read _fields;
 	  procedure connect(adir: tdirection; aroom_id: integer);
     function get_connection(adir: tdirection): integer;
   end;
@@ -57,7 +57,6 @@ type
     property current_field: TField read _get_current_field;
     procedure add_room(aroom: TRoom);
     function move_player(adir: string): boolean; // returns if player walked into new room;
-    procedure print_room_description;
   end;
 
 implementation
@@ -80,12 +79,7 @@ procedure TRoom.connect(adir: TDirection; aroom_id: integer);
 
 function TRoom.get_connection(adir: tdirection): integer;
   begin
-    exit(_connecions[adir]);
-  end;
-
-function TRoom.get_current_field(aid: integer): IPlaceable;
-  begin
-    exit(_fields[aid]);
+    exit(_connections[adir]);
   end;
 
 { TMap }
@@ -110,7 +104,7 @@ function TMap.move_player(adir: string): boolean;
         _current_field := _current_field - 3;
         if _current_field = -2 then
           begin
-            _current_room := _current_room.get_connection(NORTH);
+            _current_room := _rooms[_current_room].get_connection(NORTH);
             _current_field := 7;
             exit(true);
           end;
@@ -121,7 +115,7 @@ function TMap.move_player(adir: string): boolean;
         _current_field := _current_field + 3;
         if _current_field = 9 then
           begin
-            _current_room := _current_room.get_connection(SOUTH);
+            _current_room := _rooms[_current_room].get_connection(SOUTH);
             _current_field := 1;
           exit(true);
           end;
@@ -132,7 +126,7 @@ function TMap.move_player(adir: string): boolean;
         _current_field := _current_field + 1;
         if _current_field = 6 then
           begin
-            _current_room := _current_room.get_connection(EAST);
+            _current_room := _rooms[_current_room].get_connection(EAST);
             _current_field := 3;
             exit(true);
           end;
@@ -143,7 +137,7 @@ function TMap.move_player(adir: string): boolean;
         _current_field := _current_field - 1;
           if _current_field = 2 then
             begin
-              _current_room := _current_room.get_connection(WEST);
+              _current_room := _rooms[_current_room].get_connection(WEST);
               _current_field := 5;
               exit(true);
             end;
@@ -163,9 +157,9 @@ function TMap._get_current_field: TField;
   var
     row, col: integer;
   begin
-    row := _current_field div 3
-    col := _current_field mod 3
-    exit(_rooms[_current_room].fields[row,col])
+    row := _current_field div 3;
+    col := _current_field mod 3;
+    exit(_rooms[_current_room].fields[row,col]);
   end;
 
 { TField }
