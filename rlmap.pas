@@ -10,7 +10,7 @@ uses
 
 type
   TDirection = (NORTH, EAST, SOUTH, WEST);
-  TRoomConnections = array[0..3] of integer;
+  TRoomConnections = array[TDirection] of integer;
 
   {$I rlplaceable.inc}
 
@@ -75,20 +75,6 @@ type
 
 implementation
 
-function dirtoint(adir: Tdirection): integer;
-  begin
-    case adir of
-      NORTH: exit(0);
-      EAST: exit(1);
-      SOUTH: exit(2);
-      WEST: exit(3);
-      else
-      begin
-        raise Exception.Create('later this will be useful message....');
-      end;
-    end;
-  end;
-
 { TRoom }
 constructor TRoom.Create(aconnections: TRoomConnections; afields: TFields;
   adescription: string);
@@ -103,12 +89,12 @@ constructor TRoom.Create(aconnections: TRoomConnections; afields: TFields;
 
 procedure TRoom.connect(adir: TDirection; aroom_id: integer);
   begin
-    _connections[dirtoint(adir)] := aroom_id;
+    _connections[adir] := aroom_id;
   end;
 
 function TRoom.get_connection(adir: TDirection): integer;
   begin
-    exit(_connections[dirtoint(adir)]);
+    exit(_connections[adir]);
   end;
 
 { TMap }
@@ -128,7 +114,7 @@ procedure tmap.add_room(aroom: TRoom);
 function TMap.move_player(adir: string): boolean;
   begin
     case adir of
-      'norden', 'Norden', 'NORDEN':
+      'norden':
       begin
         _current_field := _current_field-3;
         if _current_field = -2 then
@@ -139,7 +125,7 @@ function TMap.move_player(adir: string): boolean;
         end;
         exit(False);
       end;
-      'sueden', 'Sueden', 'SUEDEN':
+      'sueden':
       begin
         _current_field := _current_field+3;
         if _current_field = 9 then
@@ -150,7 +136,7 @@ function TMap.move_player(adir: string): boolean;
         end;
         exit(False);
       end;
-      'osten', 'Osten', 'OSTEN':
+      'osten':
       begin
         _current_field := _current_field+1;
         if _current_field = 6 then
@@ -161,7 +147,7 @@ function TMap.move_player(adir: string): boolean;
         end;
         exit(False);
       end;
-      'westen', 'Westen', 'WESTEN':
+      'westen':
       begin
         _current_field := _current_field-1;
         if _current_field = 2 then
@@ -173,7 +159,7 @@ function TMap.move_player(adir: string): boolean;
         exit(False);
       end;
       else
-        raise Exception.Create('invalid direction');
+        writeln('invalid direction');
     end;
   end;
 

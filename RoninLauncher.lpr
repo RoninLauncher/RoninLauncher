@@ -51,7 +51,8 @@ var
         end;
       end;
       re.Free;
-      exit(Tplayer.Create(aName, upcasefirstchar(re.match[1]), health, damage));
+      exit(Tplayer.Create(aName, upcasefirstchar(re.match[1]),
+        health, damage));
     end;
 
   function parse_commands(actions_map: specialize TFPGMap<string, TCommand>;
@@ -66,7 +67,20 @@ var
         if startsstr(key, LowerCase(command)) then
           exit(actions_map.keydata[key]);
       end;
-      exit(nil);
+      exit(NIL);
+    end;
+
+
+  function create_connections(anorth, aeast, asouth, awest: integer):
+  TRoomConnections;
+    var
+      res: TRoomConnections;
+    begin
+      res[NORTH] := anorth;
+      res[EAST] := aeast;
+      res[SOUTH] := asouth;
+      res[WEST] := awest;
+      exit(res);
     end;
 
   procedure fill_map(map_obj: Tmap);
@@ -77,17 +91,26 @@ var
     begin
       for i := low(empty_fields) to high(empty_fields) do
         for j := low(empty_fields) to high(empty_fields) do
-          empty_fields[i, j] := TemptyField.Create;
+          empty_fields[i, j] := TEmptyField.Create;
 
-      map_obj.add_room(TRoom.Create(con, empty_fields, 'room 0'));
-      map_obj.add_room(TRoom.Create((-1, 2, 4, -1), empty_fields, 'room 1'));
-      map_obj.add_room(TRoom.Create([-1, 3, 0, 1], empty_fields, 'room 2'));
-      map_obj.add_room(TRoom.Create([-1, -1, 5, 2], empty_fields, 'room 3'));
-      map_obj.add_room(TRoom.Create([1, 0, 6, -1], empty_fields, 'room 4'));
-      map_obj.add_room(TRoom.Create([3, -1, 8, 0], empty_fields, 'room 5'));
-      map_obj.add_room(TRoom.Create([4, 7, -1, -1], empty_fields, 'room 6'));
-      map_obj.add_room(TRoom.Create([0, 8, -1, 6], empty_fields, 'room 7'));
-      map_obj.add_room(TRoom.Create([5, -1, -1, 7], empty_fields, 'room 8'));
+      map_obj.add_room(TRoom.Create(create_connections(2, 5, 7, 4),
+        empty_fields, 'room 0'));
+      map_obj.add_room(TRoom.Create(create_connections(-1, 2, 4, -1),
+        empty_fields, 'room 1'));
+      map_obj.add_room(TRoom.Create(create_connections(-1, 3, 0, 1),
+        empty_fields, 'room 2'));
+      map_obj.add_room(TRoom.Create(create_connections(-1, -1, 5, 2),
+        empty_fields, 'room 3'));
+      map_obj.add_room(TRoom.Create(create_connections(1, 0, 6, -1),
+        empty_fields, 'room 4'));
+      map_obj.add_room(TRoom.Create(create_connections(3, -1, 8, 0),
+        empty_fields, 'room 5'));
+      map_obj.add_room(TRoom.Create(create_connections(4, 7, -1, -1),
+        empty_fields, 'room 6'));
+      map_obj.add_room(TRoom.Create(create_connections(0, 8, -1, 6),
+        empty_fields, 'room 7'));
+      map_obj.add_room(TRoom.Create(create_connections(5, -1, -1, 7),
+        empty_fields, 'room 8'));
     end;
 
 begin
@@ -103,6 +126,8 @@ begin
   // player creation
   player := create_player(Name, klasse);
   map := TMap.Create(player);
+  fill_map(map);
+  map.debug;
   global_actions.add('gehe nach', TMoveCommand.Create(map));
   ClrScr;
   writeln('Also gut '+player.Name+'. Du bist also ein '+player.klasse+'.');
@@ -111,7 +136,7 @@ begin
   sleep(2000);
   ClrScr;
   // gameloop
-  while True do
+  while TRUE do
   begin
     // Raumausgabe/Feldausgabe
     writeln('Du befindest am Rande eines dunklen Waldes.');
@@ -124,7 +149,7 @@ begin
     if command = 'quit' then
       break;
     command_cls := parse_commands(global_actions, command);
-    if command_cls = nil then
+    if command_cls = NIL then
     begin
       writeln('command not found...');
       continue;

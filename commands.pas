@@ -6,6 +6,7 @@ interface
 
 uses
   regexpr,
+  sysutils,
   rlmap;
 
 type
@@ -14,12 +15,12 @@ type
     _map: TMap;
   public
     constructor Create(amap: TMap);
-    procedure Execute(command: string); virtual; abstract;
+    procedure Execute(acommand: string); virtual; abstract;
   end;
 
   TMoveCommand = class(Tcommand)
   public
-    procedure Execute(command: string); override;
+    procedure Execute(acommand: string); override;
   end;
 
 implementation
@@ -29,16 +30,28 @@ constructor TCommand.Create(amap: TMap);
     _map := amap;
   end;
 
-procedure TMoveCommand.Execute(command: string);
+procedure TMoveCommand.Execute(acommand: string);
+    (* Erfasst eingaben wie: "gehe/laufe/... nach <richtung>" *)
+(*    dir := splitstring(eingabe)[2];
+    room_change := amap.move_player(player);
+    if room_change then
+      write(amap.current_room.description);
+    else
+      write(amap.current_field.description);
+    end;
+  end;
+*)
+
   var
     re: tregexpr;
+    room_change: boolean;
   begin
     re := tregexpr.Create('(?i)gehe nach (norden|sueden|osten|westen)');
-    re.Exec(command);
-    if re.match[1] <> '' then
-      writeln('move player to '+re.match[1])
-    else
-      writeln('direction not possible');
+    re.Exec(acommand);
+    room_change := _map.move_player(lowercase(re.match[1]));
+    if room_change then
+      writeln(_map.current_room.description);
+    writeln(_map.current_field.description);
   end;
 
 end.
