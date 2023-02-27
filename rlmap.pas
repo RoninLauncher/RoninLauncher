@@ -103,6 +103,7 @@ constructor TMap.Create(aplayer: TPlayer; astart_room: integer = 0);
     _player := aplayer;
     _current_room := astart_room;
     _current_field := 4;
+    _rooms := TRoomList.Create;
   end;
 
 
