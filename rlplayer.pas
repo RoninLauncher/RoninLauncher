@@ -15,6 +15,7 @@ type
     _max_health: integer;
     _damage: integer;
     _is_alive: boolean;
+    _inventory: TInventory;
     procedure _set_health(ahealth: integer);
   public
     constructor Create(aname: string; ahealth, adamage: integer);
