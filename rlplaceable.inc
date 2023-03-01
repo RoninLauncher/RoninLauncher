@@ -1,2 +1,0 @@
-IPlaceable = interface
-end;
