@@ -38,21 +38,32 @@ type
   TEnemy = class(TEntity, IPlaceable)
   public
     procedure print_description;
+    function get_type: string;
   end;
 
   TSnake = class(TEnemy)
+  public
+    constructor Create;
   end;
 
   TOrk = class(TEnemy)
+  public
+    constructor Create;
   end;
 
   TFrog = class(TEnemy)
+  public
+    constructor Create;
   end;
 
   TViking = class(TEnemy)
+  public
+    constructor Create;
   end;
 
   TBoss = class(TEnemy)
+  public
+    constructor Create;
   end;
 
 implementation
@@ -87,6 +98,11 @@ constructor TPlayer.Create(aname, aklasse: string; ahealth, adamage: integer);
 procedure TEnemy.print_description;
   begin
     writeln(format('I am %s. I gonna destroy you!!!', [_name]));
+  end;
+
+function TEnemy.get_type: string;
+  begin
+    exit('enemy');
   end;
 
 constructor TSnake.Create;

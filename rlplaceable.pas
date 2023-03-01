@@ -8,6 +8,7 @@ interface
 type
   IPlaceable = interface
     procedure print_description;
+    function get_type: string;
   end;
 
 implementation

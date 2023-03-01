@@ -5,13 +5,16 @@ unit rlitems;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, rlplaceable;
 
 type
 
-  TItem = class
+  TItem = class(IPlaceable)
   private
     _name: string;
+  public
+    procedure print_description; virtual; abstract;
+    function get_type: string;
   end;
 
   TWeapon = class(TItem)
@@ -21,27 +24,27 @@ type
 
   TAxe = class(TWeapon)
   public
-    constructor Create(Name: string; damage: integer);
+    constructor Create;
   end;
 
   TKnife = class(TWeapon)
   public
-    constructor Create(Name: string; damage: integer);
+    constructor Create;
   end;
 
   TBow = class(TWeapon)
   public
-    constructor Create(Name: string; damage: integer);
+    constructor Create;
   end;
 
   TClub = class(TWeapon)
   public
-    constructor Create(Name: string; damage: integer);
+    constructor Create;
   end;
 
   TSword = class(TWeapon)
   public
-    constructor Create(Name: string; damage: integer);
+    constructor Create;
   end;
 
   TArmor = class(TItem)
@@ -51,12 +54,12 @@ type
 
   TMetal = class(TArmor)
   public
-    constructor Create(Name: string; max_health: integer);
+    constructor Create;
   end;
 
   THardmetal = class(TArmor)
   public
-    constructor Create(Name: string; max_health: integer);
+    constructor Create;
   end;
 
   TPotion = class(TItem)
@@ -68,23 +71,28 @@ type
 
   THealthp = class(TPotion)
   public
-    constructor Create(Name: string; health: integer);
+    constructor Create;
   end;
 
   TStrongp = class(TPotion)
   public
-    constructor Create(Name: string; damage: integer);
+    constructor Create;
   end;
 
   TMaxp = class(TPotion)
   public
-    constructor Create(Name: string; damage: integer);
+    constructor Create;
   end;
 
 implementation
 
+function TItem.get_type: string;
+  begin
+    exit('item');
+  end;
+
 //WAFFEN:
-constructor TAxe.Create(Name: string; damage: integer);
+constructor TAxe.Create;
   var
     i: integer;
   begin
@@ -105,7 +113,7 @@ constructor TAxe.Create(Name: string; damage: integer);
 
   end;
 
-constructor TKnife.Create(Name: string; damage: integer);
+constructor TKnife.Create;
   var
     i: integer;
   begin
@@ -126,7 +134,7 @@ constructor TKnife.Create(Name: string; damage: integer);
 
   end;
 
-constructor TBow.Create(Name: string; damage: integer);
+constructor TBow.Create;
   var
     i: integer;
   begin
@@ -147,7 +155,7 @@ constructor TBow.Create(Name: string; damage: integer);
 
   end;
 
-constructor TClub.Create(Name: string; damage: integer);
+constructor TClub.Create;
   var
     i: integer;
   begin
@@ -168,7 +176,7 @@ constructor TClub.Create(Name: string; damage: integer);
 
   end;
 
-constructor TSword.Create(Name: string; damage: integer);
+constructor TSword.Create;
   var
     i: integer;
   begin
@@ -190,14 +198,14 @@ constructor TSword.Create(Name: string; damage: integer);
   end;
 
 //RÜSTUNG:
-constructor TMetal.Create(Name: string; max_health: integer);
+constructor TMetal.Create;
   begin
     randomize;
     _max_health := random(201);
     _name := 'Metallrüstung';
   end;
 
-constructor THardmetal.Create(Name: string; max_health: integer);
+constructor THardmetal.Create;
   begin
     randomize;
     _max_health := random(201)+100;
@@ -205,19 +213,19 @@ constructor THardmetal.Create(Name: string; max_health: integer);
   end;
 
 //TRÄNKE:
-constructor THealthp.Create(Name: string; health: integer);
+constructor THealthp.Create;
   begin
     _name := 'Heiltrank';
     _health := 20;
   end;
 
-constructor TStrongp.Create(Name: string; damage: integer);
+constructor TStrongp.Create;
   begin
     _name := 'Stärketrank';
     _damage := 10;
   end;
 
-constructor TMaxp.Create(Name: string; damage: integer);
+constructor TMaxp.Create;
   begin
     _name := 'Maxtrank';
     _max_health := 10;
