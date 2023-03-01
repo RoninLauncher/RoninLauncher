@@ -10,6 +10,10 @@ uses
   rlplayer,
   commands;
 
+type
+  TDescList1 = array of string;
+  TDescList2 = array of TDescList1;
+
 var
   map: Tmap;
   player: Tplayer;
@@ -51,7 +55,7 @@ var
         end;
       end;
       re.Free;
-      exit(Tplayer.Create(aName, upcasefirstchar(re.match[1]),
+      exit(Tplayer.Create(upcasefirstchar(aName), upcasefirstchar(re.match[1]),
         health, damage));
     end;
 
@@ -67,7 +71,7 @@ var
         if startsstr(key, LowerCase(command)) then
           exit(actions_map.keydata[key]);
       end;
-      exit(NIL);
+      exit(nil);
     end;
 
 
@@ -83,18 +87,32 @@ var
       exit(res);
     end;
 
+  //function create_fields(adescs: TDescList2): TFields;
+  function create_fields: TFields;
+    var
+      res: TFields;
+      i, j: integer;
+    begin
+      //      if (length(adescs) <> 3) or (length(adescs[0]) <> 3) then
+      //        raise Exception.Create('not the right shape of descriptions');
+      for i := low(res) to high(res) do
+        for j := low(res) to high(res) do
+          res[i, j] := TField.Create('some desc...', nil);
+      res[0, 1].set_content(TEnemy.Create('TestFick', 100, 10));
+      exit(res);
+    end;
+
   procedure fill_map(map_obj: Tmap);
     var
       empty_fields: TFields;
       i, j: integer;
-      con: TRoomConnections;
     begin
       for i := low(empty_fields) to high(empty_fields) do
         for j := low(empty_fields) to high(empty_fields) do
           empty_fields[i, j] := TEmptyField.Create;
 
       map_obj.add_room(TRoom.Create(create_connections(2, 5, 7, 4),
-        empty_fields, 'room 0'));
+        create_fields, 'room 0'));
       map_obj.add_room(TRoom.Create(create_connections(-1, 2, 4, -1),
         empty_fields, 'room 1'));
       map_obj.add_room(TRoom.Create(create_connections(-1, 3, 0, 1),
@@ -127,8 +145,15 @@ begin
   player := create_player(Name, klasse);
   map := TMap.Create(player);
   fill_map(map);
-  map.debug;
-  global_actions.add('gehe nach', TMoveCommand.Create(map));
+
+  // register commands
+  global_actions.add('gehe nach', TMoveCommand.Create(map,
+    'bewege spieler nach norden, osten, sueden oder westen'));
+  global_actions.add('laufe nach', TMoveCommand.Create(map,
+    'bewege spieler nach norden, osten, sueden oder westen'));
+  global_Actions.add('greife an', TAttackCommand.Create(map,
+    'greife einen gegner auf dem derzeitigen feld an'));
+
   ClrScr;
   writeln('Also gut '+player.Name+'. Du bist also ein '+player.klasse+'.');
   writeln('Dann lass uns dein Abenteuer beginnen.');
@@ -136,12 +161,12 @@ begin
   sleep(2000);
   ClrScr;
   // gameloop
-  while TRUE do
+  while True do
   begin
     // Raumausgabe/Feldausgabe
-    writeln('Du befindest am Rande eines dunklen Waldes.');
-    writeln('Es führt nur ein Weg hinein.');
-    writeln('Du folgst ihm und kommst an eine Kreuzung.');
+    //writeln('Du befindest am Rande eines dunklen Waldes.');
+    //writeln('Es führt nur ein Weg hinein.');
+    //writeln('Du folgst ihm und kommst an eine Kreuzung.');
     // Kommandoeingabe
     Write('> ');
     readln(command);
@@ -149,7 +174,7 @@ begin
     if command = 'quit' then
       break;
     command_cls := parse_commands(global_actions, command);
-    if command_cls = NIL then
+    if command_cls = nil then
     begin
       writeln('command not found...');
       continue;

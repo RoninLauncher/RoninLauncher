@@ -1,34 +1,30 @@
 unit rlmap;
 
 {$mode ObjFPC}{$H+}
-{$interfaces corba}
 
 interface
 
 uses
-  Classes, SysUtils, fgl, rlplayer;
+  Classes, SysUtils, fgl, rlplayer, rlplaceable;
 
 type
   TDirection = (NORTH, EAST, SOUTH, WEST);
   TRoomConnections = array[TDirection] of integer;
 
-  {$I rlplaceable.inc}
-
-  TField = class
+  TField = class(IPlaceable)
   private
     _description: string;
     _content: IPlaceable;
   public
     constructor Create(adescription: string; acontent: IPlaceable);
     property description: string read _description;
+    property content: IPlaceable read _content implements IPlaceable;
+    procedure set_content(acontent: IPlaceable);
   end;
 
   TFields = array[0..2, 0..2] of TField;
 
   // disposable
-  TNothingPlaced = class(IPlaceable)
-  end;
-
   TEmptyField = class(TField)
     constructor Create;
   end;
@@ -66,11 +62,12 @@ type
     constructor Create(aplayer: TPlayer; astart_room: integer = 0);
     property current_room: TRoom read _get_current_room;
     property current_field: TField read _get_current_field;
+    property current_field_idx: integer read _current_field;
+    property player: TPlayer read _player;
     procedure add_room(aroom: TRoom);
     function move_player(adir: string): boolean;
     // returns if player walked into new room;
     procedure Free;
-    procedure debug;
   end;
 
 implementation
@@ -120,6 +117,11 @@ function TMap.move_player(adir: string): boolean;
         _current_field := _current_field-3;
         if _current_field = -2 then
         begin
+          if _rooms[_current_room].get_connection(NORTH) = -1 then
+          begin
+            _current_field := _current_field+3;
+            exit(False);
+          end;
           _current_room := _rooms[_current_room].get_connection(NORTH);
           _current_field := 7;
           exit(True);
@@ -131,6 +133,11 @@ function TMap.move_player(adir: string): boolean;
         _current_field := _current_field+3;
         if _current_field = 9 then
         begin
+          if _rooms[_current_room].get_connection(SOUTH) = -1 then
+          begin
+            _current_field := _current_field-3;
+            exit(False);
+          end;
           _current_room := _rooms[_current_room].get_connection(SOUTH);
           _current_field := 1;
           exit(True);
@@ -142,6 +149,11 @@ function TMap.move_player(adir: string): boolean;
         _current_field := _current_field+1;
         if _current_field = 6 then
         begin
+          if _rooms[_current_room].get_connection(EAST) = -1 then
+          begin
+            _current_field := _current_field-1;
+            exit(False);
+          end;
           _current_room := _rooms[_current_room].get_connection(EAST);
           _current_field := 3;
           exit(True);
@@ -153,6 +165,11 @@ function TMap.move_player(adir: string): boolean;
         _current_field := _current_field-1;
         if _current_field = 2 then
         begin
+          if _rooms[_current_room].get_connection(WEST) = -1 then
+          begin
+            _current_field := _current_field+1;
+            exit(False);
+          end;
           _current_room := _rooms[_current_room].get_connection(WEST);
           _current_field := 5;
           exit(True);
@@ -178,11 +195,6 @@ function TMap._get_current_field: TField;
     exit(_rooms[_current_room].fields[row, col]);
   end;
 
-procedure TMap.debug;
-  begin
-    writeln(format('%d', [_rooms.Count]));
-  end;
-
 procedure TMap.Free;
   begin
     _rooms.Free;
@@ -195,10 +207,15 @@ constructor TField.Create(adescription: string; acontent: IPlaceable);
     _content := acontent;
   end;
 
+procedure TField.set_content(acontent: Iplaceable);
+  begin
+    _content := acontent;
+  end;
+
 // disposable
 constructor TEmptyField.Create;
   begin
-    inherited Create('some desc...', TNothingPlaced.Create);
+    inherited Create('some desc...', nil);
   end;
 
 //end

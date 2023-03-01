@@ -1,16 +1,13 @@
 unit rlplayer;
 
 {$mode ObjFPC}{$H+}
-{$interfaces corba}
 
 interface
 
 uses
-  Classes, SysUtils, Math;
+  Classes, SysUtils, Math, rlplaceable;
 
 type
-  {$I rlplaceable.inc}
-
   TEntity = class
   private
     _name: string;
@@ -21,11 +18,11 @@ type
     procedure _set_health(ahealth: integer);
   public
     constructor Create(aname: string; ahealth, adamage: integer);
+    procedure attack(aenemy: tentity);
+  published
     property health: integer read _health write _set_health;
     property is_alive: boolean read _is_alive;
     property Name: string read _name;
-
-    procedure attack(aenemy: tentity);
   end;
 
   TPlayer = class(TEntity)
@@ -37,6 +34,8 @@ type
   end;
 
   TEnemy = class(TEntity, IPlaceable)
+  public
+    procedure print_description;
   end;
 
 implementation
@@ -66,6 +65,11 @@ constructor TPlayer.Create(aname, aklasse: string; ahealth, adamage: integer);
   begin
     inherited Create(aname, ahealth, adamage);
     _klasse := aklasse;
+  end;
+
+procedure TEnemy.print_description;
+  begin
+    writeln(format('I am %s. I gonna destroy you!!!', [_name]));
   end;
 
 end.
