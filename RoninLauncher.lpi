@@ -41,10 +41,6 @@
         <Filename Value="rlinventory.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
-      <Unit>
-        <Filename Value="rlitems.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
