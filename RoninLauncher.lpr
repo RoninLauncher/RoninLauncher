@@ -8,7 +8,7 @@ uses
   strutils,
   rlmap,
   rlplayer,
-  commands;
+  commands, rlitems;
 
 type
   TDescList1 = array of string;
