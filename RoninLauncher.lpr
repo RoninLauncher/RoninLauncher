@@ -9,7 +9,8 @@ uses
   rlmap,
   rlplayer,
   rlcommands,
-  rlitems;
+  rlitems,
+  rlplaceable;
 
 type
   TDescList1 = array of string;
@@ -93,13 +94,17 @@ var
     var
       res: TFields;
       i, j: integer;
+      content: TPlaceable;
     begin
       //      if (length(adescs) <> 3) or (length(adescs[0]) <> 3) then
       //        raise Exception.Create('not the right shape of descriptions');
       for i := low(res) to high(res) do
         for j := low(res) to high(res) do
-          res[i, j] := TField.Create('some desc...', nil);
-      res[0, 1].set_content(TEnemy.Create('TestFick', 100, 10));
+          res[i, j] := TEmptyField.Create;
+      content.isempty := False;
+      content.isitem := False;
+      content.enemy := TEnemy.Create('foo', 100, 10);
+      res[0, 1].content := content;
       exit(res);
     end;
 
@@ -181,6 +186,12 @@ begin
       continue;
     end;
     command_cls.Execute(command);
+
+    if not player.is_alive then
+      begin
+        writeln('Game over. You are dead :(');
+        break;
+      end;
 
     //if command='Angreifen' then attack() //noch nicht ganz sicher was da rein kommt
     // Kommandoverarbeitung

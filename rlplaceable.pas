@@ -5,10 +5,15 @@ unit rlplaceable;
 
 interface
 
+uses
+  rlplayer, rlitems;
+
 type
-  IPlaceable = interface
-    procedure print_description;
-    function get_type: string;
+  TPlaceable = record
+    isempty: boolean;
+    case isitem: boolean of
+      True: (item: TItem);
+      False: (enemy: TEnemy);
   end;
 
 implementation

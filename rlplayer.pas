@@ -5,8 +5,7 @@ unit rlplayer;
 interface
 
 uses
-  Classes, SysUtils, Math, rlplaceable,
-  rlinventory;
+  Classes, SysUtils, Math, rlinventory;
 
 type
   TEntity = class
@@ -20,11 +19,11 @@ type
     procedure _set_health(ahealth: integer);
   public
     constructor Create(aname: string; ahealth, adamage: integer);
-    procedure attack(aenemy: tentity);
-  published
     property health: integer read _health write _set_health;
     property is_alive: boolean read _is_alive;
     property Name: string read _name;
+    property damage: integer read _damage;
+    procedure attack(aenemy: tentity);
   end;
 
   TPlayer = class(TEntity)
@@ -35,10 +34,9 @@ type
     property klasse: string read _klasse;
   end;
 
-  TEnemy = class(TEntity, IPlaceable)
+  TEnemy = class(TEntity)
   public
     procedure print_description;
-    function get_type: string;
   end;
 
   TSnake = class(TEnemy)
@@ -97,12 +95,9 @@ constructor TPlayer.Create(aname, aklasse: string; ahealth, adamage: integer);
 
 procedure TEnemy.print_description;
   begin
+    if not is_alive then
+      exit;
     writeln(format('I am %s. I gonna destroy you!!!', [_name]));
-  end;
-
-function TEnemy.get_type: string;
-  begin
-    exit('enemy');
   end;
 
 constructor TSnake.Create;
