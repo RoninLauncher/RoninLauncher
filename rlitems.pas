@@ -95,15 +95,9 @@ constructor TAxe.Create;
     _damage := random(26)+85;
     i := random(3);
     case i of
-      0: begin
-        _name := 'Headcutter axe';
-      end;
-      1: begin
-        _name := 'Baber Battleaxe';
-      end;
-      2: begin
-        _name := 'Viking axe';
-      end;
+      0: _name := 'Headcutter axe';
+      1: _name := 'Baber Battleaxe';
+      2: _name := 'Viking axe';
     end;
 
   end;
@@ -116,15 +110,9 @@ constructor TKnife.Create;
     _damage := random(21)+25;
     i := random(3);
     case i of
-      0: begin
-        _name := 'Butcher Knife';
-      end;
-      1: begin
-        _name := 'Night Knife';
-      end;
-      2: begin
-        _name := 'Hallow Fade';
-      end;
+      0: _name := 'Butcher Knife';
+      1: _name := 'Night Knife';
+      2: _name := 'Hallow Fade';
     end;
 
   end;
@@ -137,15 +125,9 @@ constructor TBow.Create;
     _damage := random(71)+50;
     i := random(3);
     case i of
-      0: begin
-        _name := 'Bullseye Arc';
-      end;
-      1: begin
-        _name := 'Bone Repeater';
-      end;
-      2: begin
-        _name := 'Iron flatbow';
-      end;
+      0: _name := 'Bullseye Arc';
+      1: _name := 'Bone Repeater';
+      2: _name := 'Iron flatbow';
     end;
 
   end;
@@ -158,15 +140,9 @@ constructor TClub.Create;
     _damage := random(36)+60;
     i := random(3);
     case i of
-      0: begin
-        _name := 'Smasherclub';
-      end;
-      1: begin
-        _name := 'Shake';
-      end;
-      2: begin
-        _name := 'Spank';
-      end;
+      0: _name := 'Smasherclub';
+      1: _name := 'Shake';
+      2: _name := 'Spank';
     end;
 
   end;
@@ -179,15 +155,9 @@ constructor TSword.Create;
     _damage := random(86)+75;
     i := random(3);
     case i of
-      0: begin
-        _name := 'Slashing Sword';
-      end;
-      1: begin
-        _name := 'Excalibur';
-      end;
-      2: begin
-        _name := 'Kusanagi';
-      end;
+      0: _name := 'Slashing Sword';
+      1: _name := 'Excalibur';
+      2: _name := 'Kusanagi';
     end;
 
   end;

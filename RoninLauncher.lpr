@@ -57,8 +57,8 @@ var
         end;
       end;
       re.Free;
-      exit(Tplayer.Create(upcasefirstchar(aName), upcasefirstchar(re.match[1]),
-        health, damage));
+      exit(Tplayer.Create(upcasefirstchar(aName),
+        upcasefirstchar(re.match[1]), health, damage));
     end;
 
   function parse_commands(actions_map: specialize TFPGMap<string, TCommand>;
@@ -73,7 +73,7 @@ var
         if startsstr(key, LowerCase(command)) then
           exit(actions_map.keydata[key]);
       end;
-      exit(nil);
+      exit(NIL);
     end;
 
 
@@ -101,8 +101,8 @@ var
       for i := low(res) to high(res) do
         for j := low(res) to high(res) do
           res[i, j] := TEmptyField.Create;
-      content.isempty := False;
-      content.isitem := False;
+      content.isempty := FALSE;
+      content.isitem := FALSE;
       content.enemy := TEnemy.Create('foo', 100, 10);
       res[0, 1].content := content;
       exit(res);
@@ -167,7 +167,7 @@ begin
   sleep(2000);
   ClrScr;
   // gameloop
-  while True do
+  while TRUE do
   begin
     // Raumausgabe/Feldausgabe
     //writeln('Du befindest am Rande eines dunklen Waldes.');
@@ -180,7 +180,7 @@ begin
     if command = 'quit' then
       break;
     command_cls := parse_commands(global_actions, command);
-    if command_cls = nil then
+    if command_cls = NIL then
     begin
       writeln('command not found...');
       continue;
@@ -188,10 +188,10 @@ begin
     command_cls.Execute(command);
 
     if not player.is_alive then
-      begin
-        writeln('Game over. You are dead :(');
-        break;
-      end;
+    begin
+      writeln('Game over. You are dead :(');
+      break;
+    end;
 
     //if command='Angreifen' then attack() //noch nicht ganz sicher was da rein kommt
     // Kommandoverarbeitung

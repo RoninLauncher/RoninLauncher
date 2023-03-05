@@ -46,7 +46,8 @@ procedure TMoveCommand.Execute(acommand: string);
     re: tregexpr;
     room_change: boolean;
   begin
-    re := tregexpr.Create('(?i)(?:gehe|laufe) nach (norden|sueden|osten|westen)');
+    re := tregexpr.Create(
+      '(?i)(?:gehe|laufe) nach (norden|sueden|osten|westen)');
     re.Exec(acommand);
     room_change := _map.move_player(lowercase(re.match[1]));
     if room_change then
@@ -67,11 +68,12 @@ procedure TAttackCommand.Execute(acommand: string);
     player: TPlayer;
     enemy: TEnemy;
   begin
-    if _map.current_field.content.isitem or _map.current_field.content.isempty then
-      begin
-        writeln('There is no enemy to attack');
-        exit;
-      end;
+    if _map.current_field.content.isitem or
+      _map.current_field.content.isempty then
+    begin
+      writeln('There is no enemy to attack');
+      exit;
+    end;
 
     player := _map.player;
     enemy := _map.current_field.content.enemy;
@@ -82,13 +84,11 @@ procedure TAttackCommand.Execute(acommand: string);
     player.attack(enemy);
     writeln(format(
       'Du hast %d Schaden gemacht. Dein Gegner hat jetzt noch %d Leben',
-      [player.damage, enemy.health]
-    ));
+      [player.damage, enemy.health]));
     enemy.attack(player);
     writeln(format(
       'Dein Gegner hat %d Schaden gemacht. Du hast jetzt noch %d Leben',
-      [enemy.damage, player.health]
-    ));
+      [enemy.damage, player.health]));
 
     if not enemy.is_alive then
       writeln(format('Enemy %s died, you succeeded :)', [enemy.name]));

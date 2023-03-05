@@ -72,7 +72,7 @@ constructor TEntity.Create(aname: string; ahealth, adamage: integer);
     _health := max(1, ahealth);
     _max_health := _health;
     _damage := max(1, adamage);
-    _is_alive := True;
+    _is_alive := TRUE;
   end;
 
 procedure TEntity.attack(aenemy: TEntity);
@@ -84,7 +84,7 @@ procedure TEntity._set_health(ahealth: integer);
   begin
     _health := max(0, min(ahealth, _max_health));
     if _health = 0 then
-      _is_alive := False;
+      _is_alive := FALSE;
   end;
 
 constructor TPlayer.Create(aname, aklasse: string; ahealth, adamage: integer);
@@ -109,15 +109,9 @@ constructor TSnake.Create;
     _damage := random(6)+25;
     i := random(3);
     case i of
-      0: begin
-        _name := 'Fliegender Schlangenclown';
-      end;
-      1: begin
-        _name := 'Äskul';
-      end;
-      2: begin
-        _name := 'Hydrohis';
-      end;
+      0: _name := 'Fliegender Schlangenclown';
+      1: _name := 'Äskul';
+      2: _name := 'Hydrohis';
     end;
   end;
 
@@ -130,15 +124,9 @@ constructor TOrk.Create;
     _damage := random(11)+35;
     i := random(3);
     case i of
-      0: begin
-        _name := 'Infizierter Ork';
-      end;
-      1: begin
-        _name := 'Grakkarr';
-      end;
-      2: begin
-        _name := 'Hurghaash der Zungensammler';
-      end;
+      0: _name := 'Infizierter Ork';
+      1: _name := 'Grakkarr';
+      2: _name := 'Hurghaash der Zungensammler';
     end;
   end;
 
@@ -151,15 +139,9 @@ constructor TFrog.Create;
     _damage := random(16)+35;
     i := random(3);
     case i of
-      0: begin
-        _name := 'Gelber Giftfrosch';
-      end;
-      1: begin
-        _name := 'Dentrobaterkröte';
-      end;
-      2: begin
-        _name := 'Phyllobatermolch';
-      end;
+      0: _name := 'Gelber Giftfrosch';
+      1: _name := 'Dentrobaterkröte';
+      2: _name := 'Phyllobatermolch';
     end;
   end;
 
@@ -172,15 +154,9 @@ constructor TViking.Create;
     _damage := random(41)+20;
     i := random(3);
     case i of
-      0: begin
-        _name := 'Verfluchter Wikinger';
-      end;
-      1: begin
-        _name := 'Mannnfred';
-      end;
-      2: begin
-        _name := 'Sven';
-      end;
+      0: _name := 'Verfluchter Wikinger';
+      1: _name := 'Mannnfred';
+      2: _name := 'Sven';
     end;
   end;
 
@@ -193,15 +169,9 @@ constructor TBoss.Create;
     _damage := random(31)+50;
     i := random(3);
     case i of
-      0: begin
-        _name := 'Voit';
-      end;
-      1: begin
-        _name := 'Yogg-Saron';
-      end;
-      2: begin
-        _name := 'Blutritter';
-      end;
+      0: _name := 'Voit';
+      1: _name := 'Yogg-Saron';
+      2: _name := 'Blutritter';
     end;
   end;
 

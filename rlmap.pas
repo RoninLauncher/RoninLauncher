@@ -39,8 +39,8 @@ type
   class var
     _id_count: integer;
   public
-    constructor Create(aconnections: TRoomConnections; afields: tfields;
-      adescription: string);
+    constructor Create(aconnections: TRoomConnections;
+      afields: tfields; adescription: string);
     property description: string read _description;
     property fields: tfields read _fields;
     procedure connect(adir: tdirection; aroom_id: integer);
@@ -72,8 +72,8 @@ type
 implementation
 
 { TRoom }
-constructor TRoom.Create(aconnections: TRoomConnections; afields: TFields;
-  adescription: string);
+constructor TRoom.Create(aconnections: TRoomConnections;
+  afields: TFields; adescription: string);
   begin
     _id := _id_count;
     _connections := aconnections;
@@ -119,13 +119,13 @@ function TMap.move_player(adir: string): boolean;
           if _rooms[_current_room].get_connection(NORTH) = -1 then
           begin
             _current_field := _current_field+3;
-            exit(False);
+            exit(FALSE);
           end;
           _current_room := _rooms[_current_room].get_connection(NORTH);
           _current_field := 7;
-          exit(True);
+          exit(TRUE);
         end;
-        exit(False);
+        exit(FALSE);
       end;
       'sueden':
       begin
@@ -135,13 +135,13 @@ function TMap.move_player(adir: string): boolean;
           if _rooms[_current_room].get_connection(SOUTH) = -1 then
           begin
             _current_field := _current_field-3;
-            exit(False);
+            exit(FALSE);
           end;
           _current_room := _rooms[_current_room].get_connection(SOUTH);
           _current_field := 1;
-          exit(True);
+          exit(TRUE);
         end;
-        exit(False);
+        exit(FALSE);
       end;
       'osten':
       begin
@@ -151,13 +151,13 @@ function TMap.move_player(adir: string): boolean;
           if _rooms[_current_room].get_connection(EAST) = -1 then
           begin
             _current_field := _current_field-1;
-            exit(False);
+            exit(FALSE);
           end;
           _current_room := _rooms[_current_room].get_connection(EAST);
           _current_field := 3;
-          exit(True);
+          exit(TRUE);
         end;
-        exit(False);
+        exit(FALSE);
       end;
       'westen':
       begin
@@ -167,13 +167,13 @@ function TMap.move_player(adir: string): boolean;
           if _rooms[_current_room].get_connection(WEST) = -1 then
           begin
             _current_field := _current_field+1;
-            exit(False);
+            exit(FALSE);
           end;
           _current_room := _rooms[_current_room].get_connection(WEST);
           _current_field := 5;
-          exit(True);
+          exit(TRUE);
         end;
-        exit(False);
+        exit(FALSE);
       end;
       else
         writeln('invalid direction');
@@ -211,7 +211,7 @@ constructor TEmptyField.Create;
   var
     wtf_content: TPlaceable;
   begin
-    wtf_content.isempty := True;
+    wtf_content.isempty := TRUE;
     inherited Create('some desc...', wtf_content);
   end;
 
