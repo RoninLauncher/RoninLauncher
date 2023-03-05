@@ -11,15 +11,14 @@ type
   TDirection = (NORTH, EAST, SOUTH, WEST);
   TRoomConnections = array[TDirection] of integer;
 
-  TField = class(IPlaceable)
+  TField = class
   private
     _description: string;
-    _content: IPlaceable;
+    _content: TPlaceable;
   public
-    constructor Create(adescription: string; acontent: IPlaceable);
+    constructor Create(adescription: string; acontent: TPlaceable);
     property description: string read _description;
-    property content: IPlaceable read _content implements IPlaceable;
-    procedure set_content(acontent: IPlaceable);
+    property content: TPlaceable read _content write _content;
   end;
 
   TFields = array[0..2, 0..2] of TField;
@@ -131,7 +130,7 @@ function TMap.move_player(adir: string): boolean;
       'sueden':
       begin
         _current_field := _current_field+3;
-        if _current_field = 9 then
+        if _current_field = 10 then
         begin
           if _rooms[_current_room].get_connection(SOUTH) = -1 then
           begin
@@ -201,21 +200,19 @@ procedure TMap.Free;
   end;
 
 { TField }
-constructor TField.Create(adescription: string; acontent: IPlaceable);
+constructor TField.Create(adescription: string; acontent: TPlaceable);
   begin
     _description := adescription;
     _content := acontent;
   end;
 
-procedure TField.set_content(acontent: Iplaceable);
-  begin
-    _content := acontent;
-  end;
-
 // disposable
 constructor TEmptyField.Create;
+  var
+    wtf_content: TPlaceable;
   begin
-    inherited Create('some desc...', nil);
+    wtf_content.isempty := True;
+    inherited Create('some desc...', wtf_content);
   end;
 
 //end

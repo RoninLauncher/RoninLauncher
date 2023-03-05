@@ -1,4 +1,4 @@
-unit commands;
+unit rlcommands;
 
 {$mode objfpc}
 
@@ -54,26 +54,44 @@ procedure TMoveCommand.Execute(acommand: string);
     writeln(format('You are on field (y=%d, x=%d)',
       [_map.current_field_idx div 3, _map.current_field_idx mod 3]));
     writeln(_map.current_field.description);
-    if _map.current_field.content<>nil then
-      _map.current_field.content.print_description;
+    if not _map.current_field.content.isempty then
+      if _map.current_field.content.isitem then
+        writeln(_map.current_field.content.item.name)
+      else
+        _map.current_field.content.enemy.print_description;
   end;
 
 procedure TAttackCommand.Execute(acommand: string);
+  (* Erfasst eingaben wie: "greife an" *)
+  var
+    player: TPlayer;
+    enemy: TEnemy;
   begin
-    if typinfo.getpropinfo(_map.current_field.content, 'health') = nil then
-    begin
-      writeln('There is no enemy to attack you silly.');
-      exit();
-    end;
-    writeln('attacking...');
-    (*
+    if _map.current_field.content.isitem or _map.current_field.content.isempty then
+      begin
+        writeln('There is no enemy to attack');
+        exit;
+      end;
+
+    player := _map.player;
+    enemy := _map.current_field.content.enemy;
+
+    if not enemy.is_alive then
+      exit;
+
     player.attack(enemy);
-     enemy.attack(player);
-     ClrScr;
-     writeln('Dein Leben ['+inttostr(Player.health)+' LP]');
-     writeln('Das Leben des Gegners ['+inttostr(TEnemy.health)+' LP]')
-    *)
-    //_map.player.attack(_map.current_field.content);
+    writeln(format(
+      'Du hast %d Schaden gemacht. Dein Gegner hat jetzt noch %d Leben',
+      [player.damage, enemy.health]
+    ));
+    enemy.attack(player);
+    writeln(format(
+      'Dein Gegner hat %d Schaden gemacht. Du hast jetzt noch %d Leben',
+      [enemy.damage, player.health]
+    ));
+
+    if not enemy.is_alive then
+      writeln(format('Enemy %s died, you succeeded :)', [enemy.name]));
   end;
 
 end.

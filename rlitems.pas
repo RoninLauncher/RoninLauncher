@@ -5,16 +5,15 @@ unit rlitems;
 interface
 
 uses
-  Classes, SysUtils, rlplaceable;
+  Classes, SysUtils;
 
 type
 
-  TItem = class(IPlaceable)
+  TItem = class
   private
     _name: string;
   public
-    procedure print_description; virtual; abstract;
-    function get_type: string;
+    property name: string read _name;
   end;
 
   TWeapon = class(TItem)
@@ -62,6 +61,7 @@ type
     constructor Create;
   end;
 
+(* not a good idea yet
   TPotion = class(TItem)
   private
     _damage: integer;
@@ -83,13 +83,8 @@ type
   public
     constructor Create;
   end;
-
+*)
 implementation
-
-function TItem.get_type: string;
-  begin
-    exit('item');
-  end;
 
 //WAFFEN:
 constructor TAxe.Create;
@@ -213,6 +208,7 @@ constructor THardmetal.Create;
   end;
 
 //TRÄNKE:
+(*
 constructor THealthp.Create;
   begin
     _name := 'Heiltrank';
@@ -230,5 +226,5 @@ constructor TMaxp.Create;
     _name := 'Maxtrank';
     _max_health := 10;
   end;
-
+*)
 end.
