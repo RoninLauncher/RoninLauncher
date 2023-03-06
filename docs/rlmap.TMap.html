@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>rlmap: Class TMap</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<div class="container"><div class="navigation">
+<ul><li><a href="AllUnits.html">Units</a></li><li><a href="ClassHierarchy.html">Class Hierarchy</a></li><li><a href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li><a href="AllTypes.html">Types</a></li><li><a href="AllVariables.html">Variables</a></li><li><a href="AllConstants.html">Constants</a></li><li><a href="AllFunctions.html">Functions and Procedures</a></li><li><a href="AllIdentifiers.html">Identifiers</a></li></ul></div><div class="content">
+<span id="TMap"></span><h1 class="cio">Class TMap</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section"><a class="section" href="#PasDoc-Hierarchy">Hierarchy</a></div><div class="one_section">Fields</div><div class="one_section"><a class="section" href="#PasDoc-Methods">Methods</a></div><div class="one_section"><a class="section" href="#PasDoc-Properties">Properties</a></div></div>
+<span id="PasDoc-Description"></span><h2 class="unit">Unit</h2>
+<p class="unitlink">
+<a href="rlmap.html">rlmap</a></p>
+<h2 class="declaration">Declaration</h2>
+<p class="declaration">
+<code>type TMap = class(TObject)</code></p>
+<h2 class="description">Description</h2>
+<p>
+Class representing the map and all object placed on it.
+
+<p>       </p>
+<span id="PasDoc-Hierarchy"></span><h2 class="hierarchy">Hierarchy</h2>
+<ul class="hierarchy"><li class="ancestor">TObject</li>
+<li class="thisitem">TMap</li></ul><h2 class="overview">Overview</h2>
+<span id="PasDoc-Methods"></span><h3 class="summary">Methods</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>constructor <strong><a href="rlmap.TMap.html#Create">Create</a></strong>(aplayer: <a href="rlplayer.TPlayer.html">TPlayer</a>; astart_room: integer = 0);</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="rlmap.TMap.html#add_room">add_room</a></strong>(aroom: <a href="rlmap.TRoom.html">TRoom</a>);</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>function <strong><a href="rlmap.TMap.html#move_player">move_player</a></strong>(adir: string): boolean;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>procedure <strong><a href="rlmap.TMap.html#Free">Free</a></strong>;</code></td>
+</tr>
+</table>
+<span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="rlmap.TMap.html#current_room">current_room</a></strong>: <a href="rlmap.TRoom.html">TRoom</a> read _get_current_room;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="rlmap.TMap.html#current_field">current_field</a></strong>: <a href="rlmap.TField.html">TField</a> read _get_current_field;</code></td>
+</tr>
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="rlmap.TMap.html#current_field_idx">current_field_idx</a></strong>: integer read _current_field;</code></td>
+</tr>
+<tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="rlmap.TMap.html#player">player</a></strong>: <a href="rlplayer.TPlayer.html">TPlayer</a> read _player;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Methods</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>(aplayer: <a href="rlplayer.TPlayer.html">TPlayer</a>; astart_room: integer = 0);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+constructor for a new map   </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>aplayer</dt>
+<dd>The player instance (should preferably be the only one/Singleton)</dd>
+<dt>astart_room</dt>
+<dd>The room id in which the player starts.</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">A new instance of <code>TMap</code>.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="add_room"></span><code>procedure <strong>add_room</strong>(aroom: <a href="rlmap.TRoom.html">TRoom</a>);</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Procedure to add a new room to the map. </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>aroom</dt>
+<dd>the room that should get added to the map.</dd>
+</dl>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="move_player"></span><code>function <strong>move_player</strong>(adir: string): boolean;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Function that moves the player on the map.  </p>
+<h6 class="description_section">Parameters</h6>
+<dl class="parameters">
+<dt>adir</dt>
+<dd>the direction as a string in which the player should walk.</dd>
+</dl>
+<h6 class="description_section">Returns</h6>
+<p class="return">Indicates if the player walked into another room.</p></td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="Free"></span><code>procedure <strong>Free</strong>;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+procedure to clean up memory after use.</p>
+</td></tr>
+</table>
+<h3 class="detail">Properties</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="current_room"></span><code>property <strong>current_room</strong>: <a href="rlmap.TRoom.html">TRoom</a> read _get_current_room;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Read-only Object-property representing the room the player currently is in.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="current_field"></span><code>property <strong>current_field</strong>: <a href="rlmap.TField.html">TField</a> read _get_current_field;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Read-only Object-property representing the field the player currently is on.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="current_field_idx"></span><code>property <strong>current_field_idx</strong>: integer read _current_field;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Read-only Integer-property representing the 1d-index of the field the player is currently on.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="player"></span><code>property <strong>player</strong>: <a href="rlplayer.TPlayer.html">TPlayer</a> read _player;</code></td>
+</tr>
+<tr><td colspan="2">
+<p>
+Read-only Object-property that represents the player on the map.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0</a>. </em>
+</span>
+</div></div></body></html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>rlmap</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="PasDoc 0.16.0">
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<link rel="StyleSheet" type="text/css" href="pasdoc.css">
+</head>
+<body>
+<div class="container"><div class="navigation">
+<ul><li><a href="AllUnits.html">Units</a></li><li><a href="ClassHierarchy.html">Class Hierarchy</a></li><li><a href="AllClasses.html">Classes, Interfaces, Objects and Records</a></li><li><a href="AllTypes.html">Types</a></li><li><a href="AllVariables.html">Variables</a></li><li><a href="AllConstants.html">Constants</a></li><li><a href="AllFunctions.html">Functions and Procedures</a></li><li><a href="AllIdentifiers.html">Identifiers</a></li></ul></div><div class="content">
+<h1 class="unit">Unit rlmap</h1>
+<div class="sections">
+<div class="one_section"><a class="section" href="#PasDoc-Description">Description</a></div><div class="one_section">Uses</div><div class="one_section"><a class="section" href="#PasDoc-Classes">Classes, Interfaces, Objects and Records</a></div><div class="one_section">Functions and Procedures</div><div class="one_section"><a class="section" href="#PasDoc-Types">Types</a></div><div class="one_section">Constants</div><div class="one_section">Variables</div></div>
+<span id="PasDoc-Description"></span><h2 class="description">Description</h2>
+<p>
+A unit reponsible for handling the map the player is on and many other things around it.</p>
+<span id="PasDoc-Uses"></span><h2 class="overview">Overview</h2>
+<span id="PasDoc-Classes"></span><h3 class="cio">Classes, Interfaces, Objects and Records</h3>
+<table class="classestable wide_list">
+<tr class="listheader">
+<th class="itemname">Name</th>
+<th class="itemdesc">Description</th>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="rlmap.TField.html"><code>TField</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list2">
+<td class="itemname">Class&nbsp;<a class="bold" href="rlmap.TRoom.html"><code>TRoom</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+<tr class="list">
+<td class="itemname">Class&nbsp;<a class="bold" href="rlmap.TMap.html"><code>TMap</code></a></td>
+<td class="itemdesc">&nbsp;</td>
+</tr>
+</table>
+<span id="PasDoc-Types"></span><h3 class="summary">Types</h3>
+<table class="summary wide_list">
+<tr class="list">
+<td class="itemcode"><code><strong><a href="rlmap.html#TDirection">TDirection</a></strong> = (...);</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="rlmap.html#TRoomConnections">TRoomConnections</a></strong> = array[<a href="rlmap.html#TDirection">TDirection</a>] of integer;</code></td>
+</tr>
+<tr class="list">
+<td class="itemcode"><code><strong><a href="rlmap.html#TFields">TFields</a></strong> = array[0..2, 0..2] of <a href="rlmap.TField.html">TField</a>;</code></td>
+</tr>
+<tr class="list2">
+<td class="itemcode"><code><strong><a href="rlmap.html#TRoomList">TRoomList</a></strong> = specialize TFPGList&lt;<a href="rlmap.TRoom.html">Troom</a>&gt;;</code></td>
+</tr>
+</table>
+<h2 class="description">Description</h2>
+<h3 class="detail">Types</h3>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TDirection"></span><code><strong>TDirection</strong> = (...);</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+The direction a player can move in.
+
+<p>   </p>
+<h6 class="description_section">Values</h6>
+<ul>
+<li>
+<span id="NORTH">NORTH</span>: walk in direction north</li>
+<li>
+<span id="EAST">EAST</span>: walk in direction east</li>
+<li>
+<span id="SOUTH">SOUTH</span>: walk in direction south</li>
+<li>
+<span id="WEST">WEST</span>: walk in direction west</li>
+</ul>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TRoomConnections"></span><code><strong>TRoomConnections</strong> = array[<a href="rlmap.html#TDirection">TDirection</a>] of integer;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+Array representing the directions in which the player can leave a room. Each field contains an id which room the player then should enter. If there is no room on the connection, it stores -1.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TFields"></span><code><strong>TFields</strong> = array[0..2, 0..2] of <a href="rlmap.TField.html">TField</a>;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+2D-array representing the fields in a room.</p>
+</td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="itemcode"><span id="TRoomList"></span><code><strong>TRoomList</strong> = specialize TFPGList&lt;<a href="rlmap.TRoom.html">Troom</a>&gt;;</code></td>
+</tr>
+<tr><td colspan="1">
+<p>
+List of rooms, basically the map.</p>
+</td></tr>
+</table>
+<hr><span class="appinfo"><em>Generated by <a href="https://pasdoc.github.io/">PasDoc 0.16.0</a>. </em>
+</span>
+</div></div></body></html>

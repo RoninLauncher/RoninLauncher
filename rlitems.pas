@@ -16,7 +16,7 @@ type
     The base class for all items.
     It defines the interface and functionality that all items need.
 
-    @member Name: String - Read-only string-properts containing the name of the item.
+    @member Name Read-only string-properts containing the name of the item.
 
     @warning(This is an "abstract" class and shouldn't be used directly,
       but instead through one of its subclasses)
@@ -32,8 +32,8 @@ type
     The base class for all weapons.
     It inherits most of its interface from its parent: @inherited.
 
-    Additionaly the following fields get added:
-    @member damage: Integer - Read-only Integer-property containing the damage the weapon adds.
+    Additionaly some fields described in the following get added:
+    @member damage Read-only Integer-property containing the damage the weapon adds.
 
     @warning(This is an "abstract" class and shouldn't be used directly,
       but intead through one of its subclasses)
@@ -49,8 +49,8 @@ type
     A class defining axe weapons.
     It inherits most of its interface from its parent: @inherited.
 
-    Additionaly the following fields get added:
-    @member(Create - constructor for an axe.
+    Additionaly some fields described in the following get added:
+    @member(Create constructor for an axe.
       @returns(A new @classname instance.)
     )
   *)
@@ -63,8 +63,8 @@ type
     A class defining knife weapons.
     It inherits most of its interface from its parent: @inherited.
 
-    Additionaly the following fields get added:
-    @member(Create - constructor for a knife.
+    Additionaly some fields described in the following get added:
+    @member(Create constructor for a knife.
       @returns(A new @classname instance.)
     )
   *)
@@ -77,8 +77,8 @@ type
     A class defining bow weapons.
     It inherits most of its interface from its parent: @inherited.
 
-    Additionaly the following fields get added:
-    @member(Create - constructor for a bow.
+    Additionaly some fields described in the following get added:
+    @member(Create constructor for a bow.
       @returns(A new @classname instance.)
     )
   *)
@@ -91,8 +91,8 @@ type
     A class defining club weapons.
     It inherits most of its interface from its parent: @inherited.
 
-    Additionaly the following fields get added:
-    @member(Create - constructor for a club.
+    Additionaly some fields described in the following get added:
+    @member(Create constructor for a club.
       @returns(A new @classname instance.)
     )
   *)
@@ -105,8 +105,8 @@ type
     A class defining sword weapons.
     It inherits most of its interface from its parent: @inherited.
 
-    Additionaly the following fields get added:
-    @member(Create - constructor for a sword.
+    Additionaly some fields described in the following get added:
+    @member(Create constructor for a sword.
       @returns(A new @classname instance.)
     )
   *)
@@ -119,8 +119,8 @@ type
     The base class for all armors.
     It inherits most of its interface from its parent: @inherited.
 
-    Additionaly the following fields get added:
-    @member health: Integer - Read-only Integer-property containing the health that can be added to the player.
+    Additionaly some fields described in the following get added:
+    @member health Read-only Integer-property containing the health that can be added to the player.
 
     @warning(This is an "abstract" class and shouldn't be used directly,
       but instead through one of its subclasses.)
@@ -136,8 +136,8 @@ type
     A class defining metal armors.
     It inherits most of its interface from its parent: @inherited.
 
-    Additionaly the following fields get added:
-    @member(Create - constructor for a metal armor.
+    Additionaly some fields described in the following get added:
+    @member(Create constructor for a metal armor.
       @returns(A new @classname instance.)
     )
   *)
@@ -150,8 +150,8 @@ type
     A class defining hard metal armors.
     It inherits most of its interface from its parent: @inherited.
 
-    Additionaly the following fields get added:
-    @member(Create - constructor for a hard metal armor.
+    Additionaly some fields described in the following get added:
+    @member(Create constructor for a hard metal armor.
       @returns(A new @classname instance.)
     )
   *)

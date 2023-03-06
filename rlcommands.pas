@@ -20,14 +20,14 @@ type
     The base class for all commands. Defines some helpful functionality
     and the interface all commands must follow.
 
-    @member(Create - Base constructor for a command.
-      @param(amap: TMap - The current map instance, used to gather all informations in one place.)
-      @param(ahelp: String - The help string that gets printed when running @code(help).)
+    @member(Create Base constructor for a command.
+      @param(amap The current map instance, used to gather all informations in one place.)
+      @param(ahelp The help string that gets printed when running @code(help).)
       @returns(A new instance of @classname.)
     )
-    @member help - Read-only string-property that contains the help message.
-    @member(Execute - Procedure that executes the command.
-      @param(acommand: String - The command the user entered.
+    @member help Read-only string-property that contains the help message.
+    @member(Execute Procedure that executes the logic for the command.
+      @param(acommand The command the user entered.
         Needed for specificating the command further.)
     )
 
@@ -59,6 +59,7 @@ type
   *)
   TAttackCommand = class(TCommand)
   public
+    (* @seealso(TCommand.Execute) *)
     procedure Execute(acommand: string); override;
   end;
 

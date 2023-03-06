@@ -1,3 +1,6 @@
+(*
+  A unit containing the Player as well as many types of enemies.
+*)
 unit rlplayer;
 
 {$mode ObjFPC}{$H+}
@@ -11,21 +14,21 @@ type
   (*
     Class to represent living things on the map (entities).
 
-    @member(Create - Base constructor for new entities
-      @param(aname: String - The name of the entity.)
-      @param(ahealth: Integer - The initial and therefore maximum health of the entity.)
-      @param(adamage: Integer - The initial damage the entity should make.)
+    @member(Create Base constructor for new entities
+      @param(aname The name of the entity.)
+      @param(ahealth The initial and therefore maximum health of the entity.)
+      @param(adamage The initial damage the entity should make.)
       @returns(A new instance of @classname.)
     )
-    @member(health: Integer - Integer-Property representing the entities current health.)
-    @member(is_alive: Boolean - Read-only Boolean-Property
+    @member(health Integer-Property representing the entities current health.)
+    @member(is_alive Read-only Boolean-Property
       indicating if the entity is still alive.)
-    @member(Name: String - Read-only String-Property
+    @member(Name Read-only String-Property
       containing the name of the entity.)
-    @member(damage: Integer - Read-only Integer-property
+    @member(damage Read-only Integer-property
       representing the damage the entity makes without weapons.)
-    @member(attack - Procedure to attack other entities.
-      @param(aenemy: TEntity - The entity to attack.)
+    @member(attack Procedure to attack other entities.
+      @param(aenemy The entity to attack.)
     )
 
     @warning(This is an "abstract" class and shouldn't be used directly,
@@ -54,14 +57,14 @@ type
 
     It inherits most of its interface from its parent: @inherited.
     Additionally the following fields are defined:
-    @member(klasse: String - Read-only String-property representing the players "league".)
+    @member(klasse Read-only String-property representing the players "league".)
 
     The following fields are redefined:
-    @member(Create - constructor for the player
-      @param(aname: String - The name of the player.)
-      @param(aklasse: String - The "league" of the player.)
-      @param(ahealth: Integer - The initial and therefore maximum health of the player.)
-      @param(adamage: Integer - The initial damage the player should make.)
+    @member(Create constructor for the player
+      @param(aname The name of the player.)
+      @param(aklasse The "league" of the player.)
+      @param(ahealth The initial and therefore maximum health of the player.)
+      @param(adamage The initial damage the player should make.)
       @returns(A new instance of @classname.)
     )
   *)
@@ -77,8 +80,8 @@ type
     A base class representing all enemies on the map.
 
     It inherits most of its interface from its parent: @inherited.
-    Additionally the following fields are defined:
-    @member(print_description - Procedure to print the description of the enemy.)
+    Additionally some more fields are defined in the following
+    @member(print_description Procedure to print the description of the enemy.)
 
     @warning(This is an "abstract" class and shouldn't be used directly,
       but instead through one of its subclasses)
@@ -91,9 +94,8 @@ type
   (*
     A class defining snakes.
     It inherits most of its interface from its parent: @inherited.
-
-    Additionaly the following fields get added:
-    @member(Create - constructor for a snake.
+    Additionally some more fields are defined in the following
+    @member(Create constructor for a snake.
       @returns(A new @classname instance.)
     )
   *)
@@ -105,9 +107,8 @@ type
   (*
     A class defining orks.
     It inherits most of its interface from its parent: @inherited.
-
-    Additionaly the following fields get added:
-    @member(Create - constructor for an ork.
+    Additionally some more fields are defined in the following
+    @member(Create constructor for an ork.
       @returns(A new @classname instance.)
     )
   *)
@@ -119,9 +120,8 @@ type
   (*
     A class defining frogs.
     It inherits most of its interface from its parent: @inherited.
-
-    Additionaly the following fields get added:
-    @member(Create - constructor for a frog.
+    Additionally some more fields are defined in the following
+    @member(Create constructor for a frog.
       @returns(A new @classname instance.)
     )
   *)
@@ -133,9 +133,8 @@ type
   (*
     A class defining vikings.
     It inherits most of its interface from its parent: @inherited.
-
-    Additionaly the following fields get added:
-    @member(Create - constructor for a viking.
+    Additionally some more fields are defined in the following
+    @member(Create constructor for a viking.
       @returns(A new @classname instance.)
     )
   *)
@@ -147,9 +146,8 @@ type
   (*
     A class defining boss enemies.
     It inherits most of its interface from its parent: @inherited.
-
-    Additionaly the following fields get added:
-    @member(Create - constructor for a boss enemy.
+    Additionally some more fields are defined in the following
+    @member(Create constructor for a boss enemy.
       @returns(A new @classname instance.)
     )
   *)
