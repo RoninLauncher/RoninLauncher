@@ -8,6 +8,29 @@ uses
   Classes, SysUtils, Math, rlinventory;
 
 type
+  (*
+    Class to represent living things on the map (entities).
+
+    @member(Create - Base constructor for new entities
+      @param(aname: String - The name of the entity.)
+      @param(ahealth: Integer - The initial and therefore maximum health of the entity.)
+      @param(adamage: Integer - The initial damage the entity should make.)
+      @returns(A new instance of @classname.)
+    )
+    @member(health: Integer - Integer-Property representing the entities current health.)
+    @member(is_alive: Boolean - Read-only Boolean-Property
+      indicating if the entity is still alive.)
+    @member(Name: String - Read-only String-Property
+      containing the name of the entity.)
+    @member(damage: Integer - Read-only Integer-property
+      representing the damage the entity makes without weapons.)
+    @member(attack - Procedure to attack other entities.
+      @param(aenemy: TEntity - The entity to attack.)
+    )
+
+    @warning(This is an "abstract" class and shouldn't be used directly,
+      but instead through one of its subclasses)
+  *)
   TEntity = class
   private
     _name: string;
@@ -26,6 +49,22 @@ type
     procedure attack(aenemy: tentity);
   end;
 
+  (*
+    A class representing the Player.
+
+    It inherits most of its interface from its parent: @inherited.
+    Additionally the following fields are defined:
+    @member(klasse: String - Read-only String-property representing the players "league".)
+
+    The following fields are redefined:
+    @member(Create - constructor for the player
+      @param(aname: String - The name of the player.)
+      @param(aklasse: String - The "league" of the player.)
+      @param(ahealth: Integer - The initial and therefore maximum health of the player.)
+      @param(adamage: Integer - The initial damage the player should make.)
+      @returns(A new instance of @classname.)
+    )
+  *)
   TPlayer = class(TEntity)
   private
     _klasse: string;
@@ -34,31 +73,86 @@ type
     property klasse: string read _klasse;
   end;
 
+  (*
+    A base class representing all enemies on the map.
+
+    It inherits most of its interface from its parent: @inherited.
+    Additionally the following fields are defined:
+    @member(print_description - Procedure to print the description of the enemy.)
+
+    @warning(This is an "abstract" class and shouldn't be used directly,
+      but instead through one of its subclasses)
+  *)
   TEnemy = class(TEntity)
   public
     procedure print_description;
   end;
 
+  (*
+    A class defining snakes.
+    It inherits most of its interface from its parent: @inherited.
+
+    Additionaly the following fields get added:
+    @member(Create - constructor for a snake.
+      @returns(A new @classname instance.)
+    )
+  *)
   TSnake = class(TEnemy)
   public
     constructor Create;
   end;
 
+  (*
+    A class defining orks.
+    It inherits most of its interface from its parent: @inherited.
+
+    Additionaly the following fields get added:
+    @member(Create - constructor for an ork.
+      @returns(A new @classname instance.)
+    )
+  *)
   TOrk = class(TEnemy)
   public
     constructor Create;
   end;
 
+  (*
+    A class defining frogs.
+    It inherits most of its interface from its parent: @inherited.
+
+    Additionaly the following fields get added:
+    @member(Create - constructor for a frog.
+      @returns(A new @classname instance.)
+    )
+  *)
   TFrog = class(TEnemy)
   public
     constructor Create;
   end;
 
+  (*
+    A class defining vikings.
+    It inherits most of its interface from its parent: @inherited.
+
+    Additionaly the following fields get added:
+    @member(Create - constructor for a viking.
+      @returns(A new @classname instance.)
+    )
+  *)
   TViking = class(TEnemy)
   public
     constructor Create;
   end;
 
+  (*
+    A class defining boss enemies.
+    It inherits most of its interface from its parent: @inherited.
+
+    Additionaly the following fields get added:
+    @member(Create - constructor for a boss enemy.
+      @returns(A new @classname instance.)
+    )
+  *)
   TBoss = class(TEnemy)
   public
     constructor Create;

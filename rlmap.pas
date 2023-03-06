@@ -8,9 +8,34 @@ uses
   Classes, SysUtils, fgl, rlplayer, rlplaceable;
 
 type
+  (*
+    The direction a player can move in.
+
+    @value NORTH - walk in direction north
+    @value EAST - walk in direction east
+    @value SOUTH - walk in direction south
+    @value WEST - walk in direction west
+  *)
   TDirection = (NORTH, EAST, SOUTH, WEST);
+
+  (*
+    Array representing the directions in which the player can leave a room.
+    If the direction is possible to enter, it contains which room the player enters.
+  *)
   TRoomConnections = array[TDirection] of integer;
 
+  (*
+    Class representing a single field inside of a room (with 9 fields).
+
+    @member(Create - constructor for a field.
+      @param(adescription: string - description of the field, enables better story telling.)
+      @param(acontent: TPlaceable - an item or enemy that is placed on the field.)
+      @returns(A new instance of @classname.)
+    )
+    @member(description: String - Read-only String-property containing
+      the description of the field.)
+    @member(content: TPlaceable - Object-property containing the enemy/item on the field.)
+  *)
   TField = class
   private
     _description: string;
@@ -21,6 +46,9 @@ type
     property content: TPlaceable read _content write _content;
   end;
 
+  (*
+    2D-array representing the fields in a room.
+  *)
   TFields = array[0..2, 0..2] of TField;
 
   // disposable
@@ -30,6 +58,28 @@ type
 
   // end
 
+  (*
+    Class representing a room on the map.
+
+    @member(Create - constructor for a new room on the map.
+      @param(aconnections: TRoomConnections - The connection one room has with others.)
+      @param(afields: TFields - The fields (especially its contents) a room has.)
+      @param(adescription: String - The description prompted when entering the room.)
+      @returns(A new instance of @classname.)
+    )
+    @member description: String - Read-only String-property containing the room description.
+    @member fields: TFields - Read-only Array-property containing the fields in the room.
+    @member(connect - Prcoedure to connect an other room to on of the direction from the room.
+      @param(adir: TDirection - The direction the new room should be connected to.)
+      @param(aroom_id: Integer - The id of the room that should be connected.)
+    )
+    @member(get_connection - Function returning the connection
+        that exists in the specified direction.
+      @param(adir: TDirection - The direction to get the connection from.)
+      @returns(Integer - The id of the room that lays in that direction.
+        Returns -1 if no room is connected.)
+    )
+  *)
   TRoom = class
   private
     _id: integer;
@@ -47,8 +97,36 @@ type
     function get_connection(adir: tdirection): integer;
   end;
 
+  (*
+    List of rooms, basically the map.
+  *)
   TRoomList = specialize TFPGList<Troom>;
 
+  (*
+    Class representing the map and all object placed on it.
+
+    @member(Create - constructor for a new map
+      @param(aplayer: TPlayer - The player instance (should preferably be the only one/Singleton))
+      @param(astart_room: Integer - The room id in which the player starts.)
+      @returns(A new instance of @classname.)
+    )
+    @member(current_room: TRoom - Read-only Object-property representing
+      the room the player currently is in.)
+    @member(current_field: TField - Read-only Object-property representing
+      the field the player currently is on.)
+    @member(current_field_idx: Integer - Read-only Integer-property representing the
+      1d-index of the field the player is currently on.)
+    @member(player: TPlayer - Read-only Object-property
+      that represents the player on the map.)
+    @member(add_room: TRoom - Procedure to add a new room to the map.
+      @param(aroom: TRoom - the room that should get added to the map.)
+    )
+    @member(move_player - Function that moves the player on the map.
+      @param(adir: String - the direction as a string in which the player should walk.)
+      @returns(Boolean - Indicates if the player walked into another room.)
+    )
+    @member(Free - procedure to clean up memory after use.)
+  *)
   TMap = class
   private
     _rooms: TRoomList;
@@ -65,7 +143,6 @@ type
     property player: TPlayer read _player;
     procedure add_room(aroom: TRoom);
     function move_player(adir: string): boolean;
-    // returns if player walked into new room;
     procedure Free;
   end;
 

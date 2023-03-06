@@ -1,3 +1,7 @@
+(*
+  Defines all items the game has.
+  They will be placed randomly across the map.
+*)
 unit rlitems;
 
 {$mode ObjFPC}{$H+}
@@ -8,60 +12,155 @@ uses
   Classes, SysUtils;
 
 type
+  (*
+    The base class for all items.
+    It defines the interface and functionality that all items need.
 
+    @member Name: String - Read-only string-properts containing the name of the item.
+
+    @warning(This is an "abstract" class and shouldn't be used directly,
+      but instead through one of its subclasses)
+  *)
   TItem = class
   private
     _name: string;
   public
-    property name: string read _name;
+    property Name: string read _name;
   end;
 
+  (*
+    The base class for all weapons.
+    It inherits most of its interface from its parent: @inherited.
+
+    Additionaly the following fields get added:
+    @member damage: Integer - Read-only Integer-property containing the damage the weapon adds.
+
+    @warning(This is an "abstract" class and shouldn't be used directly,
+      but intead through one of its subclasses)
+  *)
   TWeapon = class(TItem)
   private
     _damage: integer;
+  public
+    property damage: integer read _damage;
   end;
 
+  (*
+    A class defining axe weapons.
+    It inherits most of its interface from its parent: @inherited.
+
+    Additionaly the following fields get added:
+    @member(Create - constructor for an axe.
+      @returns(A new @classname instance.)
+    )
+  *)
   TAxe = class(TWeapon)
   public
     constructor Create;
   end;
 
+  (*
+    A class defining knife weapons.
+    It inherits most of its interface from its parent: @inherited.
+
+    Additionaly the following fields get added:
+    @member(Create - constructor for a knife.
+      @returns(A new @classname instance.)
+    )
+  *)
   TKnife = class(TWeapon)
   public
     constructor Create;
   end;
 
+  (*
+    A class defining bow weapons.
+    It inherits most of its interface from its parent: @inherited.
+
+    Additionaly the following fields get added:
+    @member(Create - constructor for a bow.
+      @returns(A new @classname instance.)
+    )
+  *)
   TBow = class(TWeapon)
   public
     constructor Create;
   end;
 
+  (*
+    A class defining club weapons.
+    It inherits most of its interface from its parent: @inherited.
+
+    Additionaly the following fields get added:
+    @member(Create - constructor for a club.
+      @returns(A new @classname instance.)
+    )
+  *)
   TClub = class(TWeapon)
   public
     constructor Create;
   end;
 
+  (*
+    A class defining sword weapons.
+    It inherits most of its interface from its parent: @inherited.
+
+    Additionaly the following fields get added:
+    @member(Create - constructor for a sword.
+      @returns(A new @classname instance.)
+    )
+  *)
   TSword = class(TWeapon)
   public
     constructor Create;
   end;
 
+  (*
+    The base class for all armors.
+    It inherits most of its interface from its parent: @inherited.
+
+    Additionaly the following fields get added:
+    @member health: Integer - Read-only Integer-property containing the health that can be added to the player.
+
+    @warning(This is an "abstract" class and shouldn't be used directly,
+      but instead through one of its subclasses.)
+  *)
   TArmor = class(TItem)
   private
-    _max_health: integer;
+    _health: integer;
+  public
+    property health: integer read _health;
   end;
 
+  (*
+    A class defining metal armors.
+    It inherits most of its interface from its parent: @inherited.
+
+    Additionaly the following fields get added:
+    @member(Create - constructor for a metal armor.
+      @returns(A new @classname instance.)
+    )
+  *)
   TMetal = class(TArmor)
   public
     constructor Create;
   end;
 
+  (*
+    A class defining hard metal armors.
+    It inherits most of its interface from its parent: @inherited.
+
+    Additionaly the following fields get added:
+    @member(Create - constructor for a hard metal armor.
+      @returns(A new @classname instance.)
+    )
+  *)
   THardmetal = class(TArmor)
   public
     constructor Create;
   end;
 
-(* not a good idea yet
+(* TODO not a good idea yet
   TPotion = class(TItem)
   private
     _damage: integer;

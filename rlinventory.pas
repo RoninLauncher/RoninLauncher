@@ -1,3 +1,7 @@
+(*
+  The unit responsible for defining the inventory
+  a player has whilst playing.
+*)
 unit rlinventory;
 
 {$mode ObjFPC}{$H+}
@@ -9,16 +13,21 @@ uses
   Classes, SysUtils;
 
 type
+  (*
+    A class defining and implementing the functionality of
+    the players inventory.
 
+    @member weapon: TWeapon - Object-property representing the slot a player can put his weapon in.
+    @member armor: TArmor - Object-property representing the slot a player can put his armor in.
+  *)
   TInventory = class
   private
     _weapon_slot: TWeapon;
-    //Platzhalter für weapon  TAxe, TKnife TBow TClub TSword
-    _armor_slot: TArmor;  //Platzhalter für armor   TMetal, THardmetal
-    //    _potion: TPotion; //Platzhalter für potion       THealthp, TStrodngp, TMaxp
+    _armor_slot: TArmor;
     _inventory_slot: array [0..9] of TItem;
-    //Inventar für alle items  TWeapon, TArmor, TPotion
   public
+    property weapon: TWeapon read _weapon_slot write _weapon_slot;
+    property armor: TArmor read _armor_slot write _armor_slot;
   end;
 
 implementation

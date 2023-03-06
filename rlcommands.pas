@@ -1,3 +1,7 @@
+(*
+  A unit responsible for defining all possible commands
+  the player can execute.
+*)
 unit rlcommands;
 
 {$mode objfpc}
@@ -12,6 +16,24 @@ uses
   rlplayer;
 
 type
+  (*
+    The base class for all commands. Defines some helpful functionality
+    and the interface all commands must follow.
+
+    @member(Create - Base constructor for a command.
+      @param(amap: TMap - The current map instance, used to gather all informations in one place.)
+      @param(ahelp: String - The help string that gets printed when running @code(help).)
+      @returns(A new instance of @classname.)
+    )
+    @member help - Read-only string-property that contains the help message.
+    @member(Execute - Procedure that executes the command.
+      @param(acommand: String - The command the user entered.
+        Needed for specificating the command further.)
+    )
+
+    @warning(This is an "abstract" class and shouldn't be used directly,
+      but instead through one of its subclasses)
+  *)
   TCommand = class
   private
     _map: TMap;
@@ -22,11 +44,19 @@ type
     procedure Execute(acommand: string); virtual; abstract;
   end;
 
+  (*
+    The implementation of the @code(move) command.
+    It inherits the interface(members, etc.) from its parent: @inherited.
+  *)
   TMoveCommand = class(Tcommand)
   public
     procedure Execute(acommand: string); override;
   end;
 
+  (*
+    The implementation of the @code(attack) command.
+    It inherits the interface(members, etc.) from its parent: @inherited.
+  *)
   TAttackCommand = class(TCommand)
   public
     procedure Execute(acommand: string); override;
@@ -41,7 +71,7 @@ constructor TCommand.Create(amap: TMap; ahelp: string);
   end;
 
 procedure TMoveCommand.Execute(acommand: string);
-  (* Erfasst eingaben wie: "gehe/laufe/... nach <richtung>" *)
+  // Erfasst eingaben wie: "gehe/laufe/... nach <richtung>"
   var
     re: tregexpr;
     room_change: boolean;
@@ -63,7 +93,7 @@ procedure TMoveCommand.Execute(acommand: string);
   end;
 
 procedure TAttackCommand.Execute(acommand: string);
-  (* Erfasst eingaben wie: "greife an" *)
+  // Erfasst eingaben wie: "greife an"
   var
     player: TPlayer;
     enemy: TEnemy;
