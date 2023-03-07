@@ -265,14 +265,14 @@ constructor TSword.Create;
 constructor TMetal.Create;
   begin
     randomize;
-    _max_health := random(201);
+    _health := random(201);
     _name := 'Metallrüstung';
   end;
 
 constructor THardmetal.Create;
   begin
     randomize;
-    _max_health := random(201)+100;
+    _health := random(201)+100;
     _name := 'Hartmetallrüstung';
   end;
 
