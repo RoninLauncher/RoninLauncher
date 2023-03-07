@@ -1,13 +1,30 @@
-name: Format and tests the code in this repo
-on:
-  workflow_dispatch:
+name: Test if the code compiles, creates documentation
+on: [pull_request, pull_request_target]
 
 jobs:
-  test:
+  compile:
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - uses: gcarreno/setup-lazarus@v3.2
       with:
         lazarus-version: "stable"
         with-cache: true
     - run: lazbuild RoninLauncher.lpi
+  create-documentation:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+        fetch-depth: 0
+    - run: sudo apt install pasdoc
+    - run: pasdoc *.pas -E docs/
+    - run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add docs/
+        git commit -m "Build docs"
+    - uses: ad-m/github-push-action@master
+      with:
+        branch: ${{ github.head_ref }}
