@@ -41,7 +41,6 @@ type
     _max_health: integer;
     _damage: integer;
     _is_alive: boolean;
-    _inventory: TInventory;
     procedure _set_health(ahealth: integer);
   public
     constructor Create(aname: string; ahealth, adamage: integer);
@@ -71,9 +70,11 @@ type
   TPlayer = class(TEntity)
   private
     _klasse: string;
+    _inventory: TInventory;
   public
     constructor Create(aname, aklasse: string; ahealth, adamage: integer);
     property klasse: string read _klasse;
+    property inventory: TInventory read _inventory;
   end;
 
   (*

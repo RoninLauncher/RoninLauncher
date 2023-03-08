@@ -153,12 +153,11 @@ begin
   fill_map(map);
 
   // register commands
-  global_actions.add('gehe nach', TMoveCommand.Create(map,
-    'bewege spieler nach norden, osten, sueden oder westen'));
-  global_actions.add('laufe nach', TMoveCommand.Create(map,
-    'bewege spieler nach norden, osten, sueden oder westen'));
-  global_Actions.add('greife an', TAttackCommand.Create(map,
-    'greife einen gegner auf dem derzeitigen feld an'));
+  global_actions.add('gehe nach', TMoveCommand.Create(map));
+  global_actions.add('laufe nach', TMoveCommand.Create(map));
+  global_actions.add('greife an', TAttackCommand.Create(map);
+  global_actions.add('nehme', TTakeCommand.Create(map));
+  global_actions.add('nimm', TTakeCommand.Create(map));
 
   ClrScr;
   writeln('Also gut '+player.Name+'. Du bist also ein '+player.klasse+'.');
