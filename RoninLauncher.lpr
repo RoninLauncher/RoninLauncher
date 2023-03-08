@@ -57,8 +57,8 @@ var
         end;
       end;
       re.Free;
-      exit(Tplayer.Create(upcasefirstchar(aName),
-        upcasefirstchar(re.match[1]), health, damage));
+      exit(Tplayer.Create(upcasefirstchar(aName), upcasefirstchar(re.match[1]),
+        health, damage));
     end;
 
   function parse_commands(actions_map: specialize TFPGMap<string, TCommand>;
@@ -73,7 +73,7 @@ var
         if startsstr(key, LowerCase(command)) then
           exit(actions_map.keydata[key]);
       end;
-      exit(NIL);
+      exit(nil);
     end;
 
 
@@ -94,17 +94,21 @@ var
     var
       res: TFields;
       i, j: integer;
-      content: TPlaceable;
+      content1, content2: TPlaceable;
     begin
       //      if (length(adescs) <> 3) or (length(adescs[0]) <> 3) then
       //        raise Exception.Create('not the right shape of descriptions');
       for i := low(res) to high(res) do
         for j := low(res) to high(res) do
           res[i, j] := TEmptyField.Create;
-      content.isempty := FALSE;
-      content.isitem := FALSE;
-      content.enemy := TEnemy.Create('foo', 100, 10);
-      res[0, 1].content := content;
+      content1.isempty := False;
+      content1.isitem := False;
+      content1.enemy := TEnemy.Create('foo', 100, 10);
+      res[0, 1].content := content1;
+      content2.isempty := False;
+      content2.isitem := True;
+      content2.item := TSword.Create;
+      res[0, 0].content := content2;
       exit(res);
     end;
 
@@ -153,12 +157,11 @@ begin
   fill_map(map);
 
   // register commands
-  global_actions.add('gehe nach', TMoveCommand.Create(map,
-    'bewege spieler nach norden, osten, sueden oder westen'));
-  global_actions.add('laufe nach', TMoveCommand.Create(map,
-    'bewege spieler nach norden, osten, sueden oder westen'));
-  global_Actions.add('greife an', TAttackCommand.Create(map,
-    'greife einen gegner auf dem derzeitigen feld an'));
+  global_actions.add('gehe nach', TMoveCommand.Create(map));
+  global_actions.add('laufe nach', TMoveCommand.Create(map));
+  global_actions.add('greife an', TAttackCommand.Create(map));
+  global_actions.add('nehme', TTakeCommand.Create(map));
+  global_actions.add('nimm', TTakeCommand.Create(map));
 
   ClrScr;
   writeln('Also gut '+player.Name+'. Du bist also ein '+player.klasse+'.');
@@ -167,7 +170,7 @@ begin
   sleep(2000);
   ClrScr;
   // gameloop
-  while TRUE do
+  while True do
   begin
     // Raumausgabe/Feldausgabe
     //writeln('Du befindest am Rande eines dunklen Waldes.');
@@ -180,7 +183,7 @@ begin
     if command = 'quit' then
       break;
     command_cls := parse_commands(global_actions, command);
-    if command_cls = NIL then
+    if command_cls = nil then
     begin
       writeln('command not found...');
       continue;
