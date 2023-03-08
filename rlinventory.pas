@@ -19,7 +19,7 @@ type
 
     @member weapon Object-property representing the slot a player can put his weapon in.
     @member armor Object-property representing the slot a player can put his armor in.
-    @member(slots Array-property representing the rest of the 
+    @member(slots Array-property representing the rest of the
       slots the player can put in whatever he wants.)
   *)
   TInventory = class

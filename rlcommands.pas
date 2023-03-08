@@ -45,7 +45,7 @@ type
 
   (*
     The implementation of the @code(move) command.
-    
+
     It inherits the interface from its parent @inherited and just changes inside logic.
   *)
   TMoveCommand = class(Tcommand)
