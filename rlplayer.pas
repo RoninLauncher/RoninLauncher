@@ -165,7 +165,7 @@ constructor TEntity.Create(aname: string; ahealth, adamage: integer);
     _health := max(1, ahealth);
     _max_health := _health;
     _damage := max(1, adamage);
-    _is_alive := TRUE;
+    _is_alive := True;
   end;
 
 procedure TEntity.attack(aenemy: TEntity);
@@ -177,7 +177,7 @@ procedure TEntity._set_health(ahealth: integer);
   begin
     _health := max(0, min(ahealth, _max_health));
     if _health = 0 then
-      _is_alive := FALSE;
+      _is_alive := False;
   end;
 
 constructor TPlayer.Create(aname, aklasse: string; ahealth, adamage: integer);

@@ -32,7 +32,7 @@ type
   public
     property weapon: TWeapon read _weapon_slot write _weapon_slot;
     property armor: TArmor read _armor_slot write _armor_slot;
-    property slots: TItem read _getInventorySlot write _setInventorySlot;
+    property slots[idx: integer]: TItem read _getInventorySlot write _setInventorySlot;
   end;
 
 implementation
@@ -42,9 +42,9 @@ procedure TInventory._setInventorySlot(idx: integer; aitem: TItem);
     _inventory_slots[idx] := aitem;
   end;
 
-function Tinventory._getInventorySlot(idx: integer): TI;
+function Tinventory._getInventorySlot(idx: integer): TItem;
   begin
-    exit(_inventory_slot[idx]);
+    exit(_inventory_slots[idx]);
   end;
 
 end.

@@ -57,8 +57,8 @@ var
         end;
       end;
       re.Free;
-      exit(Tplayer.Create(upcasefirstchar(aName),
-        upcasefirstchar(re.match[1]), health, damage));
+      exit(Tplayer.Create(upcasefirstchar(aName), upcasefirstchar(re.match[1]),
+        health, damage));
     end;
 
   function parse_commands(actions_map: specialize TFPGMap<string, TCommand>;
@@ -73,7 +73,7 @@ var
         if startsstr(key, LowerCase(command)) then
           exit(actions_map.keydata[key]);
       end;
-      exit(NIL);
+      exit(nil);
     end;
 
 
@@ -101,8 +101,8 @@ var
       for i := low(res) to high(res) do
         for j := low(res) to high(res) do
           res[i, j] := TEmptyField.Create;
-      content.isempty := FALSE;
-      content.isitem := FALSE;
+      content.isempty := False;
+      content.isitem := False;
       content.enemy := TEnemy.Create('foo', 100, 10);
       res[0, 1].content := content;
       exit(res);
@@ -155,7 +155,7 @@ begin
   // register commands
   global_actions.add('gehe nach', TMoveCommand.Create(map));
   global_actions.add('laufe nach', TMoveCommand.Create(map));
-  global_actions.add('greife an', TAttackCommand.Create(map);
+  global_actions.add('greife an', TAttackCommand.Create(map));
   global_actions.add('nehme', TTakeCommand.Create(map));
   global_actions.add('nimm', TTakeCommand.Create(map));
 
@@ -166,7 +166,7 @@ begin
   sleep(2000);
   ClrScr;
   // gameloop
-  while TRUE do
+  while True do
   begin
     // Raumausgabe/Feldausgabe
     //writeln('Du befindest am Rande eines dunklen Waldes.');
@@ -179,7 +179,7 @@ begin
     if command = 'quit' then
       break;
     command_cls := parse_commands(global_actions, command);
-    if command_cls = NIL then
+    if command_cls = nil then
     begin
       writeln('command not found...');
       continue;

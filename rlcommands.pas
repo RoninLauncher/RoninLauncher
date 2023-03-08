@@ -13,7 +13,9 @@ uses
   SysUtils,
   TypInfo,
   rlmap,
-  rlplayer;
+  rlplayer,
+  rlitems,
+  rlplaceable;
 
 type
   (*
@@ -104,7 +106,8 @@ constructor TAttackCommand.Create(amap: TMap);
 constructor TTakeCommand.Create(amap: TMap);
   begin
     inherited;
-    _help := 'Nehme einen Gegenstand von deinem derzeitigen Feld auf. [nehme/nimm in slot waffe/ruestung/SLOT]';
+    _help :=
+      'Nehme einen Gegenstand von deinem derzeitigen Feld auf. [nehme/nimm in slot waffe/ruestung/SLOT]';
   end;
 
 procedure TMoveCommand.Execute(acommand: string);
@@ -113,8 +116,7 @@ procedure TMoveCommand.Execute(acommand: string);
     re: tregexpr;
     room_change: boolean;
   begin
-    re := tregexpr.Create(
-      '(?i)(?:gehe|laufe) nach (norden|sueden|osten|westen)');
+    re := tregexpr.Create('(?i)(?:gehe|laufe) nach (norden|sueden|osten|westen)');
     re.Exec(acommand);
     room_change := _map.move_player(lowercase(re.match[1]));
     if room_change then
@@ -124,7 +126,7 @@ procedure TMoveCommand.Execute(acommand: string);
     writeln(_map.current_field.description);
     if not _map.current_field.content.isempty then
       if _map.current_field.content.isitem then
-        writeln(_map.current_field.content.item.name)
+        writeln(_map.current_field.content.item.Name)
       else
         _map.current_field.content.enemy.print_description;
   end;
@@ -134,9 +136,10 @@ procedure TAttackCommand.Execute(acommand: string);
   var
     player: TPlayer;
     enemy: TEnemy;
+    wtf_content: TPlaceable;
   begin
-    if _map.current_field.content.isitem or
-      _map.current_field.content.isempty then
+    if _map.current_field.content.isitem or  _map.current_field.content.isempty or
+      (not _map.current_field.content.enemy.is_alive) then
     begin
       writeln('Du kannst dich nicht selber angreifen. :)');
       exit;
@@ -144,22 +147,20 @@ procedure TAttackCommand.Execute(acommand: string);
 
     player := _map.player;
     enemy := _map.current_field.content.enemy;
+    wtf_content := _map.current_field.content;
 
     player.attack(enemy);
-    writeln(format(
-      'Du hast %d Schaden gemacht. Dein Gegner hat jetzt noch %d Leben',
+    writeln(format('Du hast %d Schaden gemacht. Dein Gegner hat jetzt noch %d Leben',
       [player.damage, enemy.health]));
 
     if not enemy.is_alive then
-      begin
-        writeln(format('Enemy %s died, you succeeded :)', [enemy.name]));
-        _map.current_field.content.isempty := True;
-        exit;
-      end;
+    begin
+      writeln(format('Enemy %s died, you succeeded :)', [enemy.Name]));
+      exit;
+    end;
 
     enemy.attack(player);
-    writeln(format(
-      'Dein Gegner hat %d Schaden gemacht. Du hast jetzt noch %d Leben',
+    writeln(format('Dein Gegner hat %d Schaden gemacht. Du hast jetzt noch %d Leben',
       [enemy.damage, player.health]));
 
   end;
@@ -170,27 +171,28 @@ procedure TTakeCommand.Execute(acommand: string);
     re: TRegExpr;
     idx: integer;
   begin
-    re := TRegExpr.Create('(?i)(?:nehme|nimm)( gegenstand)? in slot (waffe|ruestung|[0123456789])( auf)');
-    if not re.Execute then
-      begin
-        writeln('Ungültiger Befehl, schau doch nochmal nach. :)');
-        exit;
-      end;
+    re := TRegExpr.Create(
+      '(?i)(?:nehme|nimm)( gegenstand)? in slot (waffe|ruestung|[0123456789])( auf)');
+    if not re.Exec(acommand) then
+    begin
+      writeln('Ungültiger Befehl, schau doch nochmal nach. :)');
+      exit;
+    end;
 
     if _map.current_field.content.isempty or (not _map.current_field.content.isitem) then
-      begin
-        writeln('Du kannst nicht Nichts in dein Inventar packen. :)');
-        exit;
-      end;
+    begin
+      writeln('Du kannst nicht Nichts in dein Inventar packen. :)');
+      exit;
+    end;
 
     if re.Match[1] = 'waffe' then
-      _map.player.inventory.weapon := _map.current_field.content.item;
+      _map.player.inventory.weapon := (_map.current_field.content.item as TWeapon)
     else if re.Match[1] = 'ruestung' then
-      _map.player.inventory.armor := _map.current_field.content.item;
-    else
+        _map.player.inventory.armor := (_map.current_field.content.item as TArmor)
+      else
       begin
-        idx := inttostr(re.Match[1]);
-        _map.player.inventory.slots
+        idx := StrToInt(re.Match[1]);
+        _map.player.inventory.slots[idx] := _map.current_field.content.item;
       end;
   end;
 
