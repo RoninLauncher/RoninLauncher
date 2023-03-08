@@ -28,7 +28,7 @@ type
     _armor_slot: TArmor;
     _inventory_slots: array [0..9] of TItem;
     procedure _setInventorySlot(idx: integer; aitem: TItem);
-    function _getInventorySlot(idx: integer);
+    function _getInventorySlot(idx: integer): TItem;
   public
     property weapon: TWeapon read _weapon_slot write _weapon_slot;
     property armor: TArmor read _armor_slot write _armor_slot;
@@ -42,7 +42,7 @@ procedure TInventory._setInventorySlot(idx: integer; aitem: TItem);
     _inventory_slots[idx] := aitem;
   end;
 
-function Tinventory._getInventorySlot(idx: integer);
+function Tinventory._getInventorySlot(idx: integer): TI;
   begin
     exit(_inventory_slot[idx]);
   end;
