@@ -15,7 +15,8 @@ uses
   rlmap,
   rlplayer,
   rlitems,
-  rlplaceable;
+  rlplaceable,
+  rlinventory;
 
 type
   (*
@@ -136,7 +137,6 @@ procedure TAttackCommand.Execute(acommand: string);
   var
     player: TPlayer;
     enemy: TEnemy;
-    wtf_content: TPlaceable;
   begin
     if _map.current_field.content.isitem or  _map.current_field.content.isempty or
       (not _map.current_field.content.enemy.is_alive) then
@@ -147,7 +147,6 @@ procedure TAttackCommand.Execute(acommand: string);
 
     player := _map.player;
     enemy := _map.current_field.content.enemy;
-    wtf_content := _map.current_field.content;
 
     player.attack(enemy);
     writeln(format('Du hast %d Schaden gemacht. Dein Gegner hat jetzt noch %d Leben',
@@ -172,28 +171,29 @@ procedure TTakeCommand.Execute(acommand: string);
     idx: integer;
   begin
     re := TRegExpr.Create(
-      '(?i)(?:nehme|nimm)( gegenstand)? in slot (waffe|ruestung|[0123456789])( auf)');
+      '(?i)(?:nehme|nimm)(?: gegenstand)? in slot (waffe|ruestung|[0123456789])(?: auf)?');
     if not re.Exec(acommand) then
-    begin
-      writeln('Ungültiger Befehl, schau doch nochmal nach. :)');
-      exit;
-    end;
+      begin
+        writeln('Ungültiger Befehl, schau doch nochmal nach. :)');
+        exit;
+      end;
 
     if _map.current_field.content.isempty or (not _map.current_field.content.isitem) then
-    begin
-      writeln('Du kannst nicht Nichts in dein Inventar packen. :)');
-      exit;
-    end;
+      begin
+        writeln('Du kannst nicht Nichts in dein Inventar packen. :)');
+        exit;
+      end;
 
     if re.Match[1] = 'waffe' then
-      _map.player.inventory.weapon := (_map.current_field.content.item as TWeapon)
+      _map.player.inventory.weapon := TWeapon(_map.current_field.content.item)
     else if re.Match[1] = 'ruestung' then
-        _map.player.inventory.armor := (_map.current_field.content.item as TArmor)
-      else
+      _map.player.inventory.armor := TArmor(_map.current_field.content.item)
+    else
       begin
-        idx := StrToInt(re.Match[1]);
+        idx := StrToInt(re.Match[1]) - 1;
         _map.player.inventory.slots[idx] := _map.current_field.content.item;
       end;
+    _map.player.inventory.print;
   end;
 
 end.

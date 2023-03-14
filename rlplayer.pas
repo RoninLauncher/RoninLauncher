@@ -184,6 +184,7 @@ constructor TPlayer.Create(aname, aklasse: string; ahealth, adamage: integer);
   begin
     inherited Create(aname, ahealth, adamage);
     _klasse := aklasse;
+    _inventory := TInventory.Create;
   end;
 
 procedure TEnemy.print_description;

@@ -94,17 +94,21 @@ var
     var
       res: TFields;
       i, j: integer;
-      content: TPlaceable;
+      content1, content2: TPlaceable;
     begin
       //      if (length(adescs) <> 3) or (length(adescs[0]) <> 3) then
       //        raise Exception.Create('not the right shape of descriptions');
       for i := low(res) to high(res) do
         for j := low(res) to high(res) do
           res[i, j] := TEmptyField.Create;
-      content.isempty := False;
-      content.isitem := False;
-      content.enemy := TEnemy.Create('foo', 100, 10);
-      res[0, 1].content := content;
+      content1.isempty := False;
+      content1.isitem := False;
+      content1.enemy := TEnemy.Create('foo', 100, 10);
+      res[0, 1].content := content1;
+      content2.isempty := False;
+      content2.isitem := True;
+      content2.item := TSword.Create;
+      res[0, 0].content := content2;
       exit(res);
     end;
 

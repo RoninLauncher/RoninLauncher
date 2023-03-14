@@ -30,12 +30,24 @@ type
     procedure _setInventorySlot(idx: integer; aitem: TItem);
     function _getInventorySlot(idx: integer): TItem;
   public
+    constructor Create;
     property weapon: TWeapon read _weapon_slot write _weapon_slot;
     property armor: TArmor read _armor_slot write _armor_slot;
     property slots[idx: integer]: TItem read _getInventorySlot write _setInventorySlot;
+    procedure print;
   end;
 
 implementation
+
+constructor TInventory.Create;
+  var
+    i: integer;
+  begin
+    _weapon_slot := nil;
+    _armor_slot := nil;
+    for i := low(_inventory_slots) to high(_inventory_slots) do
+      _inventory_slots[i] := nil;
+  end;
 
 procedure TInventory._setInventorySlot(idx: integer; aitem: TItem);
   begin
@@ -45,6 +57,27 @@ procedure TInventory._setInventorySlot(idx: integer; aitem: TItem);
 function Tinventory._getInventorySlot(idx: integer): TItem;
   begin
     exit(_inventory_slots[idx]);
+  end;
+
+procedure TInventory.print;
+  var
+    i: integer;
+  begin
+    if _weapon_slot = nil then
+      writeln('Weapon: empty')
+    else
+      writeln(format('Weapon: %s', [_weapon_slot.name]));
+
+    if _armor_slot = nil then
+      writeln('Armor: empty')
+    else
+      writeln(format('Armor: %s', [_armor_slot.name]));
+
+    for i := low(_inventory_slots) to high(_inventory_slots) do
+      if _inventory_slots[i] = nil then
+        writeln(format('Slot %d: empty', [i+1]))
+      else
+        writeln(format('Slot %d: %s', [i+1, _inventory_slots[i].name]));
   end;
 
 end.
