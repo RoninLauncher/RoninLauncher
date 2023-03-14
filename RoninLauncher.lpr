@@ -111,6 +111,42 @@ var
       exit(res);
     end;
 
+
+  //Generierungsalgorithmus                  //OLE SCHAU DIR DAS MAL BITTE NOCH AN PLZ <3
+  {function create_content: TPlaceable;
+    var
+      i,j,k,l: integer;
+    begin
+      randomize;
+      i:= random(8);
+      j:= random(10);
+      //Feld i wird ausgewählt
+      if j>3 then
+      isitem:= TRUE;
+      else isitem:= FALSE;
+      k:= i;
+      repeat
+        i:= random(8);
+      until
+        i<>k;                                //Das mit den Zufallszahlen müsste so stimmen, ich weiß nur nicht, wie man das Feld i auswählt und ob das so passt mit dem ganzen conten.isitem:= TRUE und so
+      j:= random(10);
+      //Feld i wird ausgewählt
+      if j>3 then
+      isitem:= TRUE;
+      else isitem:= FALSE;
+      l:= i;
+      repeat
+        i:= random(8);
+      until
+        i<>k and i<>l;
+      j:= random(10);
+      //Feld i wird ausgewählt
+      if j>3 then
+      isitem:= TRUE;
+      else isitem:= FALSE;}
+
+
+
   procedure fill_map(map_obj: Tmap);
     var
       empty_fields: TFields;
@@ -195,7 +231,7 @@ begin
   writeln('Also gut '+player.Name+'. Du bist also ein '+player.klasse+'.');
   writeln('Dann lass uns dein Abenteuer beginnen.');
   //Charaktererstellung abgeschlossen. Abenteuer beginnt.
-  sleep(2000);
+  sleep(4000);
   ClrScr;
   // gameloop
   while True do
