@@ -17,10 +17,14 @@ type
     A class defining and implementing the functionality of
     the players inventory.
 
+    @member(Create Constructor for a new inventory
+      @returns(A new @classname instance)
+    )
     @member weapon Object-property representing the slot a player can put his weapon in.
     @member armor Object-property representing the slot a player can put his armor in.
     @member(slots Array-property representing the rest of the
       slots the player can put in whatever he wants.)
+    @member(print Procedure to print out the inventory.)
   *)
   TInventory = class
   private
@@ -66,7 +70,7 @@ procedure TInventory.print;
     if _weapon_slot = nil then
       writeln('Weapon: empty')
     else
-      writeln(format('Weapon: %s', [_weapon_slot.name]));
+      writeln(format('Weapon: %s (Damage: %d)', [_weapon_slot.name, _weapon_slot.damage]));
 
     if _armor_slot = nil then
       writeln('Armor: empty')
