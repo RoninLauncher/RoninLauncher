@@ -144,7 +144,41 @@ begin
   //Einleitung grob
   readln(Name);
   ClrScr;
-  Writeln('Willkommen, welche Klasse möchtest du sein? [Warlord/Ork/Mensch]');
+
+  Writeln('Die Abenteurer die auf unsere Welt kommen werden immer weniger und weniger.');
+  Writeln('Mir wurde berichtet das ihr Abenteurer euer Gedaechtnis verloren habt');
+  Writeln('und ihr fast nichts mehr wisst als euren Namen.');
+  Writeln('Zu deiner Herkunft kann ich Leider nicht sehr viel sagen');
+  Writeln('da alle vorherigen Abenteurer auch ihr Gedaechtnis Verloren haben.');
+  Writeln('Was ich aber sagen kann ist das Ihr von den Sternen kommt.');
+  Sleep(1000);
+  Writeln('Wenn ein Abenteurer unsere Welt betritt entsteht ein greller blitz am Himmel');
+  sleep(1000);
+  Writeln('und ihr fallt Sternschnuppen artig vom Himmel.');
+  Writeln('Wahrscheinlich könnt ihr euch deshalb an fast nichts erinnern.');
+  Writeln(' ');
+  Writeln('Bisher bist du nur ein astraler Koerper und nur ich kann dich sehen.');
+  Writeln('Für dich gibt es drei Avatare, das sind wesen die schon einmal gelebt haben ');
+  Writeln('und ihren Körper für die Abenteurer geopfert haben.');
+  Writeln('Wähle weise welchem Körper du willst!');
+  Sleep(20000);
+  ClrScr;
+
+  Writeln('Es gibt drei Spezies mit unterschiedlichen Fähigkeiten:');
+  Writeln(' ');
+  Writeln('-Warlord (Sie sind mächtige Zauberer und Kämpen auch damit. Sie sind Eher Einzelgänger');
+  Writeln('und halten nicht viel von Teamwork da sie Allein besser dran sind.');
+  Writeln('Sie haben einen Grundwert von 90 Leben und 110 Schaden)');
+  Writeln(' ');
+  Writeln('-Orks (Sie sind ein Volk von Hau-draufs wie sind sehr grob wodurch sie weniger schaden machen');
+  Writeln('aber haben viele Leben aufgrund ihrer Harten Haut.');
+  Writeln('Des Weiteren haben die Orks selbstgebastelte Fäuste mit denen sie Schaden machen.');
+  Writeln('Sie haben 130 Leben und 70 Schaden)');
+  Writeln('-Mensch (Die Menschen sind eine Sehr eingeschworene Spezies die anders aussehende Spezies mit Skepsis gegenüberstehen,');
+  Writeln('sie haben ihre Kriegskunst über hunderte von Jahren verbessert und treten als Ritter an.');
+  Writeln('Sie haben einen Grundwert von 100 Leben und 100 Schaden)');
+  Writeln(' ');
+  Writeln('Also Welche Klasse Wählst du? [Warlord/Ork/Mensch]');
   Write('> ');
   readln(klasse);
   // player creation
@@ -174,6 +208,7 @@ begin
     //writeln('Es führt nur ein Weg hinein.');
     //writeln('Du folgst ihm und kommst an eine Kreuzung.');
     // Kommandoeingabe
+    // skjghksj alwfg wueigskjdfiuwg
     Write('> ');
     readln(command);
     // rudimentäre commands
