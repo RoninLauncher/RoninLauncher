@@ -1,5 +1,8 @@
 name: Test if the code compiles, creates documentation
-on: [pull_request]
+on:
+  pull_request:
+    paths-ignore:
+    - '.github/**'
 
 jobs:
   compile:

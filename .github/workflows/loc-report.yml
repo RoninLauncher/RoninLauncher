@@ -6,4 +6,6 @@ on:
 jobs:
   report_loc:
     if: github.event.pull_request.merged == true
-    uses: PavanMudigonda/lines-of-code-reporter@v1.5
+    runs-on: ubuntu-latest
+    steps:
+    - uses: PavanMudigonda/lines-of-code-reporter@v1.5
