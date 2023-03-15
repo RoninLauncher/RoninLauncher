@@ -27,8 +27,8 @@ type
   TPlaceable = record
     isempty: boolean;
     case isitem: boolean of
-      TRUE: (item: TItem);
-      FALSE: (enemy: TEnemy);
+      True: (item: TItem);
+      False: (enemy: TEnemy);
   end;
 
 implementation

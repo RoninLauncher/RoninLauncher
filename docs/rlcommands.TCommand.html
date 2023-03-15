@@ -33,7 +33,7 @@ The base class for all commands. Defines some helpful functionality and the inte
 <table class="summary wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>constructor <strong><a href="rlcommands.TCommand.html#Create">Create</a></strong>(amap: <a href="rlmap.TMap.html">TMap</a>; ahelp: string);</code></td>
+<td class="itemcode"><code>constructor <strong><a href="rlcommands.TCommand.html#Create">Create</a></strong>(amap: <a href="rlmap.TMap.html">TMap</a>);</code></td>
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
@@ -52,17 +52,15 @@ The base class for all commands. Defines some helpful functionality and the inte
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>(amap: <a href="rlmap.TMap.html">TMap</a>; ahelp: string);</code></td>
+<td class="itemcode"><span id="Create"></span><code>constructor <strong>Create</strong>(amap: <a href="rlmap.TMap.html">TMap</a>);</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
-Base constructor for a command.   </p>
+Base constructor for a command.  </p>
 <h6 class="description_section">Parameters</h6>
 <dl class="parameters">
 <dt>amap</dt>
 <dd>The current map instance, used to gather all informations in one place.</dd>
-<dt>ahelp</dt>
-<dd>The help string that gets printed when running <code>help</code>.</dd>
 </dl>
 <h6 class="description_section">Returns</h6>
 <p class="return">A new instance of <code>TCommand</code>.</p></td></tr>
