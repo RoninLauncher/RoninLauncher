@@ -14,7 +14,6 @@ uses
 
 type
   TDescList1 = array of string;
-  TDescList2 = array of TDescList1;
 
 var
   map: Tmap;
@@ -103,7 +102,7 @@ var
           res[i, j] := TEmptyField.Create;
       content1.isempty := False;
       content1.isitem := False;
-      content1.enemy := TEnemy.Create('foo', 100, 10);
+      content1.enemy := TEnemy.Create('foo', 1000, 30);
       res[0, 1].content := content1;
       content2.isempty := False;
       content2.isitem := True;
@@ -141,6 +140,26 @@ var
         empty_fields, 'room 8'));
     end;
 
+  procedure print_text(aname: string);
+    var
+      fIn: TextFile;
+      s: string;
+    begin
+      assignfile(fIn, format('writings/%s.txt', [aname]));
+      try
+        reset(fIn);
+        while not eof(fIn) do
+          begin
+            readln(fIn, s);
+            writeln(s);
+            sleep(1000);
+          end;
+      except
+        on E: EInOutError do
+          writeln('An filehandling error occured: ', E.Message);
+      end;
+    end;
+
 begin
   global_actions := specialize TFPGMap<string, TCommand>.Create;
   // Intro, get name
@@ -148,6 +167,10 @@ begin
   //Einleitung grob
   readln(Name);
   ClrScr;
+
+  print_text('testread');
+  sleep(2000);
+  clrscr;
 
   Writeln('Die Abenteurer die auf unsere Welt kommen werden immer weniger und weniger.');
   Writeln('Mir wurde berichtet das ihr Abenteurer euer Gedaechtnis verloren habt');
@@ -196,6 +219,9 @@ begin
   global_actions.add('greife an', TAttackCommand.Create(map));
   global_actions.add('nehme', TTakeCommand.Create(map));
   global_actions.add('nimm', TTakeCommand.Create(map));
+  global_actions.add('stats', TStatsCommand.Create(map));
+  global_actions.add('gebe', TGiveCommand.Create(map));
+  global_actions.add('gib', TGiveCommand.Create(map));
 
   ClrScr;
   writeln('Also gut '+player.Name+'. Du bist also ein '+player.klasse+'.');

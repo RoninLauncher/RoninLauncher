@@ -48,17 +48,18 @@ type
     property is_alive: boolean read _is_alive;
     property Name: string read _name;
     property damage: integer read _damage;
-    procedure attack(aenemy: tentity);
+    procedure attack(aenemy: TEntity);
   end;
 
   (*
     A class representing the Player.
 
     It inherits most of its interface from its parent: @inherited.
-    Additionally the following fields are defined:
-    @member(klasse Read-only String-property representing the players "league".)
+    Additionally some following fields are defined
+    @member klasse Read-only String-property representing the players "league".
+    @member print_stats Procedure to print the current stats of the player.
 
-    The following fields are redefined:
+    The following fields are redefined.
     @member(Create constructor for the player
       @param(aname The name of the player.)
       @param(aklasse The "league" of the player.)
@@ -75,6 +76,7 @@ type
     constructor Create(aname, aklasse: string; ahealth, adamage: integer);
     property klasse: string read _klasse;
     property inventory: TInventory read _inventory;
+    procedure print_stats;
   end;
 
   (*
@@ -185,6 +187,20 @@ constructor TPlayer.Create(aname, aklasse: string; ahealth, adamage: integer);
     inherited Create(aname, ahealth, adamage);
     _klasse := aklasse;
     _inventory := TInventory.Create;
+  end;
+
+procedure TPlayer.print_stats;
+  var
+    vdamage: integer = 0;
+  begin
+    if _inventory.weapon <> nil then
+      vdamage := _inventory.weapon.damage;
+    writeln(format(
+      'Du hast noch %d Leben und machst zurzeit %d Schaden (davon +%d durch deine waffe).',
+      [_health, _damage + vdamage, vdamage]
+    ));
+    writeln('Dein Inventar:');
+    _inventory.print;
   end;
 
 procedure TEnemy.print_description;
