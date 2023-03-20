@@ -85,6 +85,45 @@ type
     procedure Execute(acommand: string); override;
   end;
 
+  (*
+    The implementation of the @code(stats) command.
+
+    It inherits the interface from its parent @inherited and just changes inside logic.
+  *)
+  TStatsCommand = class(TCommand)
+  public
+    (* @seealso(TCommand.Create) *)
+    constructor Create(amap: TMap);
+    (* @seealso(TCommand.Execute) *)
+    procedure Execute(acommand: string); override;
+  end;
+
+  (*
+    The implementation of the @code(give) command.
+
+    It inherits the interface from its parent @inherited and just changes inside logic.
+  *)
+  TGiveCommand = class(TCommand)
+  public
+    (* @seealso(TCommand.Create) *)
+    constructor Create(amap: TMap);
+    (* @seealso(TCommand.Execute) *)
+    procedure Execute(acommand: string); override;
+  end;
+
+  (*
+    The implementation of the @code(give) command.
+
+    It inherits the interface from its parent @inherited and just changes inside logic.
+  *)
+  TSwitchCommand = class(TCommand)
+  public
+    (* @seealso(TCommand.Create) *)
+    constructor Create(amap: TMap);
+    (* @seealso(TCommand.Execute) *)
+    procedure Execute(acommand: string);
+  end;
+
 implementation
 
 constructor TCommand.Create(amap: TMap);
@@ -109,6 +148,23 @@ constructor TTakeCommand.Create(amap: TMap);
     inherited;
     _help :=
       'Nehme einen Gegenstand von deinem derzeitigen Feld auf. [nehme/nimm in slot waffe/ruestung/SLOT]';
+  end;
+
+constructor TStatsCommand.Create(amap: TMap);
+  begin
+    inherited;
+    _help := 'Gibt die wichtigsten Daten deines Charakters aus. [stats]'
+  end;
+
+constructor TGiveCommand.Create(amap: TMap);
+  begin
+    inherited;
+    _help := 'Lege einen Gegenstand auf das Feld auf dem du gerade stehst. [gebe/gib slot SLOT]';
+  end;
+
+constructor TSwitchCommand.Create(amap: TMap);
+  begin
+    _help := 'Wechlse den Inhalt von zwei Inventarslots';
   end;
 
 procedure TMoveCommand.Execute(acommand: string);
@@ -169,6 +225,8 @@ procedure TTakeCommand.Execute(acommand: string);
   var
     re: TRegExpr;
     idx: integer;
+    slot: string;
+    tmp_content: TPlaceable;
   begin
     re := TRegExpr.Create(
       '(?i)(?:nehme|nimm)(?: gegenstand)? in slot (waffe|ruestung|[0123456789])(?: auf)?');
@@ -184,16 +242,116 @@ procedure TTakeCommand.Execute(acommand: string);
         exit;
       end;
 
-    if re.Match[1] = 'waffe' then
-      _map.player.inventory.weapon := TWeapon(_map.current_field.content.item)
-    else if re.Match[1] = 'ruestung' then
-      _map.player.inventory.armor := TArmor(_map.current_field.content.item)
+    slot := lowercase(re.Match[1]);
+
+    if slot = 'waffe' then
+      begin
+        _map.player.inventory.weapon := TWeapon(_map.current_field.content.item);
+        tmp_content.isempty := True;
+        tmp_content.isitem := False;
+        _map.current_field.content := tmp_content;
+      end
+    else if slot = 'ruestung' then
+      begin
+        _map.player.inventory.armor := TArmor(_map.current_field.content.item);
+        tmp_content.isempty := True;
+        tmp_content.isitem := False;
+        _map.current_field.content := tmp_content;
+      end
     else
       begin
         idx := StrToInt(re.Match[1]) - 1;
         _map.player.inventory.slots[idx] := _map.current_field.content.item;
+        tmp_content.isempty := True;
+        tmp_content.isitem := False;
+        _map.current_field.content := tmp_content;
       end;
-    _map.player.inventory.print;
+  end;
+
+procedure TStatsCommand.Execute(acommand: string);
+  begin
+    _map.player.print_stats;
+  end;
+
+procedure TGiveCommand.Execute(acommand: string);
+  var
+    re: TRegExpr;
+    slot: string;
+    idx: integer;
+    tmp_content: TPlaceable;
+  begin
+    re := TRegExpr.Create('(?i)(?:gebe|gib)(?: gegenstand (?:aus|von))? slot (waffe|ruestung|[0123456789])(?: ab)?');
+    if not re.Exec(acommand) then
+      begin
+        writeln('Ungültiger Befehl, schau doch nochmal nach. :)');
+        exit;
+      end;
+
+    if (not _map.current_field.content.isempty) then
+      begin
+        writeln('Das Feld hat seine Kapazität bereits erreicht, such dir doch ein anderes.');
+        exit
+      end;
+
+    slot := lowercase(re.Match[1]);
+
+    if slot = 'waffe' then
+      begin
+        if _map.player.inventory.weapon = nil then
+          begin
+            writeln('Du hast zurzeit keine Waffe.');
+            exit;
+          end;
+        tmp_content.isempty := False;
+        tmp_content.isitem := True;
+        tmp_content.item := _map.player.inventory.weapon;
+        _map.current_field.content := tmp_content;
+        _map.player.inventory.weapon := nil;
+      end
+    else if slot = 'ruestung' then
+      begin
+        if _map.player.inventory.armor = nil then
+          begin
+            writeln('Du hast zurzeit keine Ruestung.');
+            exit;
+          end;
+        tmp_content.isempty := False;
+        tmp_content.isitem := True;
+        tmp_content.item := _map.player.inventory.armor;
+        _map.current_field.content := tmp_content;
+        _map.player.inventory.armor := nil;
+      end
+    else
+      begin
+        idx := strtoint(slot) - 1;
+        if _map.player.inventory.slots[idx] = nil then
+          begin
+            writeln('Du hast zurzeit nichts in diesem slot.');
+            exit;
+          end;
+        tmp_content.isempty := False;
+        tmp_content.isitem := True;
+        tmp_content.item := _map.player.inventory.slots[idx];
+        _map.current_field.content := tmp_content;
+        _map.player.inventory.slots[idx] := nil;
+      end;
+  end;
+
+procedure TSwitchCommand.Execute(acommand: string);
+  var
+    re: TRegExpr;
+    slot1, slot2: string;
+    idx1, idx2: integer;
+  begin
+    re := TRegExpr.Create('(?i)wechsle slot (waffe|ruestung|[0123456789]) mit(?: slot)? (waffe|ruestung|[0123456789])');
+    if not re.Exec(acommand) then
+      begin
+        writeln('Ungültiger Befehl, schau noch mal nach. :)');
+        exit;
+      end;
+
+    slot1 := lowercase(re.Match[1]);
+    slot2 := lowercase(re.Match[2]);
   end;
 
 end.
