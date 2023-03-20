@@ -1,8 +1,10 @@
 name: Test if the code compiles, creates documentation
 on:
   pull_request:
-    paths-ignore:
-    - '.github/**'
+    paths:
+    - '**.pas'
+    - 'RoninLauncher.lpr'
+    - 'RoninLauncher.lpi'
 
 jobs:
   compile:
