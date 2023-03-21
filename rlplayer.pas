@@ -46,9 +46,10 @@ type
     constructor Create(aname: string; ahealth, adamage: integer);
     property health: integer read _health write _set_health;
     property is_alive: boolean read _is_alive;
+    property max_health: integer read _max_health;
     property Name: string read _name;
     property damage: integer read _damage;
-    procedure attack(aenemy: TEntity);
+    function attack(aenemy: TEntity): integer;
   end;
 
   (*
@@ -77,6 +78,7 @@ type
     property klasse: string read _klasse;
     property inventory: TInventory read _inventory;
     procedure print_stats;
+    function attack(aenemy: TEntity): integer;
   end;
 
   (*
@@ -170,9 +172,14 @@ constructor TEntity.Create(aname: string; ahealth, adamage: integer);
     _is_alive := True;
   end;
 
-procedure TEntity.attack(aenemy: TEntity);
+function TEntity.attack(aenemy: TEntity): integer;
+  var
+    current_damage: integer;
   begin
-    aenemy.health := aenemy.health-_damage;
+    randomize;
+    current_damage := round(_damage*random);
+    aenemy.health := aenemy.health-current_damage;
+    exit(current_damage)
   end;
 
 procedure TEntity._set_health(ahealth: integer);
@@ -187,6 +194,19 @@ constructor TPlayer.Create(aname, aklasse: string; ahealth, adamage: integer);
     inherited Create(aname, ahealth, adamage);
     _klasse := aklasse;
     _inventory := TInventory.Create;
+  end;
+
+function TPlayer.attack(aenemy: TEntity): integer;
+  var
+    vdamage: integer = 0;
+    current_damage: integer;
+  begin
+    randomize;
+    if _inventory.weapon <> nil then
+      vdamage := _inventory.weapon.damage;
+    current_damage := round(_damage - random * (_damage + vdamage));
+    aenemy.health := aenemy.health - current_damage;
+    exit(current_damage);
   end;
 
 procedure TPlayer.print_stats;

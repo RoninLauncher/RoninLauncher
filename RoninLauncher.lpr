@@ -16,6 +16,7 @@ type
   TDescList1 = array of string;
 
 var
+  i: integer;
   map: Tmap;
   player: Tplayer;
   Name, klasse, command: string;
@@ -144,8 +145,10 @@ var
     var
       fIn: TextFile;
       s: string;
+      filename: string;
     begin
-      assignfile(fIn, format('./writings/%s.txt', [aname]));
+      filename := format('writings/%s.txt', [aname]);
+      assignfile(fIn, filename);
       try
         reset(fIn);
         while not eof(fIn) do
@@ -156,7 +159,7 @@ var
           end;
       except
         on E: EInOutError do
-          writeln('An filehandling error occured: ', E.Message);
+          writeln('An filehandling error occured: ', E.Message, '  ', filename);
       end;
     end;
 
@@ -170,8 +173,9 @@ begin
   ClrScr;
 
   print_text('intro2');
-  Sleep(20000);
-  ClrScr;
+  sleep(2000);
+  clrscr;
+
 
   print_text('species');
   Write('> ');
@@ -209,6 +213,12 @@ begin
     Write('> ');
     readln(command);
     // rudimentäre commands
+    if command = 'help' then
+      begin
+        writeln('Befehle:');
+        for i:=1 to global_actions.count - 1 do
+          writeln(global_actions.keys[i], #9'=> ', global_actions.data[i].help);
+      end;
     if command = 'quit' then
       break;
     command_cls := parse_commands(global_actions, command);
