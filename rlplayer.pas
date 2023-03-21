@@ -91,6 +91,7 @@ type
   *)
   TEnemy = class(TEntity)
   public
+    constructor create; virtual; abstract;
     procedure print_description;
   end;
 
@@ -104,7 +105,7 @@ type
   *)
   TSnake = class(TEnemy)
   public
-    constructor Create;
+    constructor Create; override;
   end;
 
   (*
@@ -117,7 +118,7 @@ type
   *)
   TOrk = class(TEnemy)
   public
-    constructor Create;
+    constructor Create; override;
   end;
 
   (*
@@ -130,7 +131,7 @@ type
   *)
   TFrog = class(TEnemy)
   public
-    constructor Create;
+    constructor Create; override;
   end;
 
   (*
@@ -143,7 +144,7 @@ type
   *)
   TViking = class(TEnemy)
   public
-    constructor Create;
+    constructor Create; override;
   end;
 
   (*
@@ -156,7 +157,7 @@ type
   *)
   TBoss = class(TEnemy)
   public
-    constructor Create;
+    constructor Create; override;
   end;
 
 implementation
