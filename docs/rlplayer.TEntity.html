@@ -37,7 +37,7 @@ Class to represent living things on the map (entities).
 </tr>
 <tr class="list2">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>procedure <strong><a href="rlplayer.TEntity.html#attack">attack</a></strong>(aenemy: <a href="rlplayer.TEntity.html">TEntity</a>);</code></td>
+<td class="itemcode"><code>function <strong><a href="rlplayer.TEntity.html#attack">attack</a></strong>(aenemy: <a href="rlplayer.TEntity.html">TEntity</a>): integer;</code></td>
 </tr>
 </table>
 <span id="PasDoc-Properties"></span><h3 class="summary">Properties</h3>
@@ -52,9 +52,13 @@ Class to represent living things on the map (entities).
 </tr>
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><code>property <strong><a href="rlplayer.TEntity.html#Name">Name</a></strong>: string read _name;</code></td>
+<td class="itemcode"><code>property <strong><a href="rlplayer.TEntity.html#max_health">max_health</a></strong>: integer read _max_health;</code></td>
 </tr>
 <tr class="list2">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><code>property <strong><a href="rlplayer.TEntity.html#Name">Name</a></strong>: string read _name;</code></td>
+</tr>
+<tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
 <td class="itemcode"><code>property <strong><a href="rlplayer.TEntity.html#damage">damage</a></strong>: integer read _damage;</code></td>
 </tr>
@@ -84,7 +88,7 @@ Base constructor for new entities    </p>
 <table class="detail wide_list">
 <tr class="list">
 <td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
-<td class="itemcode"><span id="attack"></span><code>procedure <strong>attack</strong>(aenemy: <a href="rlplayer.TEntity.html">TEntity</a>);</code></td>
+<td class="itemcode"><span id="attack"></span><code>function <strong>attack</strong>(aenemy: <a href="rlplayer.TEntity.html">TEntity</a>): integer;</code></td>
 </tr>
 <tr><td colspan="2">
 <p>
@@ -116,6 +120,14 @@ Integer-Property representing the entities current health.</p>
 <p>
 Read-only Boolean-Property indicating if the entity is still alive.</p>
 </td></tr>
+</table>
+<table class="detail wide_list">
+<tr class="list">
+<td class="visibility"><a href="legend.html"><img  src="public.gif" alt="Public" title="Public"></a></td>
+<td class="itemcode"><span id="max_health"></span><code>property <strong>max_health</strong>: integer read _max_health;</code></td>
+</tr>
+<tr><td colspan="2">
+&nbsp;</td></tr>
 </table>
 <table class="detail wide_list">
 <tr class="list">

@@ -121,7 +121,7 @@ type
     (* @seealso(TCommand.Create) *)
     constructor Create(amap: TMap);
     (* @seealso(TCommand.Execute) *)
-    procedure Execute(acommand: string);
+    procedure Execute(acommand: string); override;
   end;
 
 implementation
@@ -186,6 +186,11 @@ procedure TMoveCommand.Execute(acommand: string);
         writeln(_map.current_field.content.item.Name)
       else
         _map.current_field.content.enemy.print_description;
+    if (_map.current_room_idx = _map.start_room) and (_map.current_field_idx = 4) then
+      begin
+        _map.player.health := _map.player.max_health;
+        writeln('Dein Leben wurde wieder aufgefüllt.');
+      end;
   end;
 
 procedure TAttackCommand.Execute(acommand: string);

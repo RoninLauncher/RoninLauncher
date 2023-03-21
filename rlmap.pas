@@ -139,6 +139,7 @@ type
     _player: TPlayer;
     _current_room: integer; // index in rooms
     _current_field: integer; // index on 2d room map
+    _start_room: integer;
     function _get_current_room: TRoom;
     function _get_current_field: TField;
   public
@@ -146,6 +147,8 @@ type
     property current_room: TRoom read _get_current_room;
     property current_field: TField read _get_current_field;
     property current_field_idx: integer read _current_field;
+    property current_room_idx: integer read _current_room;
+    property start_room: integer read _start_room;
     property player: TPlayer read _player;
     procedure add_room(aroom: TRoom);
     function move_player(adir: string): boolean;
@@ -183,6 +186,7 @@ constructor TMap.Create(aplayer: TPlayer; astart_room: integer = 0);
     _current_room := astart_room;
     _current_field := 4;
     _rooms := TRoomList.Create;
+    _start_room := astart_room;
   end;
 
 
