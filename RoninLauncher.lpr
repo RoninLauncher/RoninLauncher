@@ -6,6 +6,7 @@ uses
   regexpr,
   SysUtils,
   strutils,
+  math,
   rlmap,
   rlplayer,
   rlcommands,
@@ -101,44 +102,124 @@ var
       for i := low(res) to high(res) do
         for j := low(res) to high(res) do
           res[i, j] := TEmptyField.Create;
-      content1.isempty := False;
-      content1.isitem := False;
-      content1.enemy := TEnemy.Create('foo', 1000, 30);
-      res[0, 1].content := content1;
-      content2.isempty := False;
-      content2.isitem := True;
-      content2.item := TSword.Create;
-      res[0, 0].content := content2;
       exit(res);
+    end;
+
+  //Generierungsalgorithmus
+  procedure create_content(aroom: TRoom);
+    type
+      twtf = class of TItem;
+      twtf2 = class of TEnemy;
+    var
+      i,j,k,l: integer;
+      row, col: integer;
+      content: TPlaceable;
+      iklassen: array[0..4] of twtf = (TClub, TSword, TBow, TAxe, TKnife);
+      eklassen: array[0..4] of twtf2 = (TSnake, TBoss, TFrog, TOrk, TViking);
+    begin
+      randomize;
+      i:= random(9);
+      j:= random(10);
+      //Feld i wird ausgewählt
+      content.isempty:=false;
+      divmod(i, 3, row, col);
+      if j>3 then
+        begin
+          content.isitem:= TRUE;
+          content.item:= iklassen[random(5)].create;
+        end
+      else
+        begin
+          content.isitem:= FALSE;
+          content.enemy:=eklassen[random(5)].create;
+        end;
+      aroom.fields[row, col].content := content;
+      k:= i;
+      repeat
+        i:= random(9);
+      until i<>k;
+      j:= random(10);
+      //Feld i wird ausgewählt
+      divmod(i, 3, row, col);
+      content.isempty:=false;
+      divmod(i, 3, row, col);
+      if j>3 then
+        begin
+          content.isitem:= TRUE;
+          content.item:= iklassen[random(5)].create;
+        end
+      else
+        begin
+          content.isitem:= FALSE;
+          content.enemy:=eklassen[random(5)].create;
+        end;
+      aroom.fields[row, col].content := content;
+      l:= i;
+      repeat
+        i:= random(9);
+      until (i<>k) and (i<>l);
+      j:= random(10);
+      //Feld i wird ausgewählt
+      divmod(i, 3, row, col);
+      content.isempty:=false;
+      divmod(i, 3, row, col);
+      if j>3 then
+        begin
+          content.isitem:= TRUE;
+          content.item:= iklassen[random(5)].create;
+        end
+      else
+        begin
+          content.isitem:= FALSE;
+          content.enemy:=eklassen[random(5)].create;
+        end;
+      aroom.fields[row, col].content := content;
     end;
 
   procedure fill_map(map_obj: Tmap);
     var
       empty_fields: TFields;
       i, j: integer;
+      room: TRoom;
     begin
       for i := low(empty_fields) to high(empty_fields) do
         for j := low(empty_fields) to high(empty_fields) do
           empty_fields[i, j] := TEmptyField.Create;
 
-      map_obj.add_room(TRoom.Create(create_connections(2, 5, 7, 4),
-        create_fields, 'room 0'));
-      map_obj.add_room(TRoom.Create(create_connections(-1, 2, 4, -1),
-        empty_fields, 'room 1'));
-      map_obj.add_room(TRoom.Create(create_connections(-1, 3, 0, 1),
-        empty_fields, 'room 2'));
-      map_obj.add_room(TRoom.Create(create_connections(-1, -1, 5, 2),
-        empty_fields, 'room 3'));
-      map_obj.add_room(TRoom.Create(create_connections(1, 0, 6, -1),
-        empty_fields, 'room 4'));
-      map_obj.add_room(TRoom.Create(create_connections(3, -1, 8, 0),
-        empty_fields, 'room 5'));
-      map_obj.add_room(TRoom.Create(create_connections(4, 7, -1, -1),
-        empty_fields, 'room 6'));
-      map_obj.add_room(TRoom.Create(create_connections(0, 8, -1, 6),
-        empty_fields, 'room 7'));
-      map_obj.add_room(TRoom.Create(create_connections(5, -1, -1, 7),
-        empty_fields, 'room 8'));
+      room := TRoom.Create(create_connections(2, 5, 7, 4),
+        create_fields, 'room 0');
+      create_content(room);
+      room := TRoom.Create(create_connections(-1, 2, 4, -1),
+        empty_fields, 'room 1');
+      map_obj.add_room(room);
+      create_content(room);
+      room := TRoom.Create(create_connections(-1, 3, 0, 1),
+        empty_fields, 'room 2');
+      map_obj.add_room(room);
+      create_content(room);
+      room := TRoom.Create(create_connections(-1, -1, 5, 2),
+        empty_fields, 'room 3');
+      map_obj.add_room(room);
+      create_content(room);
+      room := TRoom.Create(create_connections(1, 0, 6, -1),
+        empty_fields, 'room 4');
+      map_obj.add_room(room);
+      create_content(room);
+      room := TRoom.Create(create_connections(3, -1, 8, 0),
+        empty_fields, 'room 5');
+      map_obj.add_room(room);
+      create_content(room);
+      room := TRoom.Create(create_connections(4, 7, -1, -1),
+        empty_fields, 'room 6');
+      map_obj.add_room(room);
+      create_content(room);
+      room := TRoom.Create(create_connections(0, 8, -1, 6),
+        empty_fields, 'room 7');
+      map_obj.add_room(room);
+      create_content(room);
+      room := TRoom.Create(create_connections(5, -1, -1, 7),
+        empty_fields, 'room 8');
+      map_obj.add_room(room);
     end;
 
   procedure print_text(aname: string);
@@ -199,7 +280,7 @@ begin
   writeln('Also gut '+player.Name+'. Du bist also ein '+player.klasse+'.');
   writeln('Dann lass uns dein Abenteuer beginnen.');
   //Charaktererstellung abgeschlossen. Abenteuer beginnt.
-  sleep(2000);
+  sleep(4000);
   ClrScr;
   // gameloop
   while True do
