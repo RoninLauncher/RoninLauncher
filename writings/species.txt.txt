@@ -1,0 +1,14 @@
+Es gibt drei Spezies mit unterschiedlichen Fähigkeiten:
+
+-Warlord (Sie sind mächtige Zauberer und Kämpen auch damit.
+Sie sind Eher Einzelgänger und halten nicht viel von Teamwork da sie Allein besser dran sind.
+Sie haben einen Grundwert von 90 Leben und 110 Schaden)
+
+-Orks (Sie sind ein Volk von Hau-draufs wie sind sehr grob wodurch sie weniger schaden machen aber haben viele Leben aufgrund ihrer Harten Haut.
+Des Weiteren haben die Orks selbstgebastelte Fäuste mit denen sie Schaden machen.  Sie haben 130 Leben und 70 Schaden)
+
+-Mensch (Die Menschen sind eine Sehr eingeschworene Spezies die anders aussehende Spezies mit Skepsis gegenüberstehen,
+sie haben ihre Kriegskunst über hunderte von Jahren verbessert und treten als Ritter an.
+(Sie haben einen Grundwert von 100 Leben und 100 Schaden)
+
+Also Welche Spezies Wählst du? [Warlord/Ork/Mensch]
